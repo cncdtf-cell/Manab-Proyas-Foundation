@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cncdtf-cell.github.io/Manab-Proyas-Foundation/sitemap.xml
