@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+    match /projects/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /gallery/{id}      { allow read: if true; allow write: if isAdmin(); }
+    match /news/{id}         { allow read: if true; allow write: if isAdmin(); }
+    match /team/{id}         { allow read: if true; allow write: if isAdmin(); }
+    match /testimonials/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /settings/{id}     { allow read: if true; allow write: if isAdmin(); }
+
+    match /volunteers/{id} {
+      allow create: if request.resource.data.keys().hasOnly(
+          ['name','phone','email','address','interest','lang','status','createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 100
+        && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if isAdmin();
+    }
+    match /messages/{id} {
+      allow create: if request.resource.data.keys().hasOnly(
+          ['name','email','subject','message','lang','status','createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 100
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 2000
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

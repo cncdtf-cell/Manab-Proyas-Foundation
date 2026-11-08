@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0D2F28">
+<title>অ্যাডমিন প্যানেল | মানব প্রয়াস ফাউন্ডেশন</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230D2F28'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23D6B56D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--dark:#0D2F28;--surface:#154238;--gold:#D6B56D;--gold-h:#C2A055;--cream:#FDFBF7;--sand:#F3EFE6;--bg:#f4f1ea;--text:#1E2B27;--muted:#5b6b66;--line:#e6e0d1;--red:#c0392b;--green:#0f8a5f;--r:16px;--shadow:0 12px 30px -14px rgba(13,47,40,.3);--safe-b:env(safe-area-inset-bottom,0px);--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Hind Siliguri','Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15.5px;min-height:100vh;overflow-x:hidden}
+body.lock{overflow:hidden}
+img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+b.rq{color:var(--red)}
+/* buttons */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:13px;font-weight:700;font-size:15px;transition:transform .15s,box-shadow .25s,background .25s;user-select:none;white-space:nowrap}
+.btn:active{transform:scale(.95)}
+.btn-gold{background:var(--gold);color:var(--dark);box-shadow:0 8px 18px -8px rgba(214,181,109,.9)}.btn-gold:hover{background:var(--gold-h)}
+.btn-dark{background:var(--dark);color:#fff}.btn-dark:hover{background:var(--surface)}
+.btn-line{border:1.5px solid var(--line);background:#fff;color:var(--dark)}.btn-line:hover{border-color:var(--dark)}
+.btn-red{background:var(--red);color:#fff}
+.btn-sm{min-height:38px;padding:0 14px;font-size:14px;border-radius:11px}
+.btn-w{width:100%}
+.ib{position:relative;overflow:hidden;width:40px;height:40px;border-radius:11px;display:inline-grid;place-items:center;background:var(--sand);color:var(--dark);transition:.2s;flex:none}
+.ib:hover{background:var(--dark);color:var(--gold)}.ib:active{transform:scale(.88)}
+.ib.red:hover{background:var(--red);color:#fff}
+.ib[disabled]{opacity:.35;pointer-events:none}
+.rip{position:absolute;border-radius:50%;background:currentColor;opacity:.25;transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+.busy{pointer-events:none;opacity:.85}
+.busy::after{content:"";width:15px;height:15px;border:2.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{width:44px;height:44px;border:4px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+/* screens */
+.center{min-height:100vh;display:grid;place-items:center;padding:20px}
+.authbg{background:linear-gradient(135deg,#0D2F28,#154238 60%,#0A241F);position:relative;overflow:hidden}
+.authbg::before{content:"";position:absolute;right:-120px;top:-140px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(214,181,109,.22),transparent 70%)}
+.acard{position:relative;background:#fff;border-radius:24px;padding:30px 24px;width:min(100%,430px);box-shadow:0 40px 80px -30px rgba(0,0,0,.6);animation:rise .6s var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.alogo{width:62px;height:62px;border-radius:18px;background:var(--dark);color:var(--gold);display:grid;place-items:center;font-size:27px;margin:0 auto 14px;border:1px solid rgba(214,181,109,.5)}
+.acard h1{text-align:center;color:var(--dark);font-size:1.45rem;line-height:1.3}
+.acard .sub{text-align:center;color:var(--muted);font-size:14px;margin:4px 0 20px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-weight:600;font-size:14px;color:var(--dark);margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;min-height:48px;padding:11px 13px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:16px;color:var(--text);transition:border-color .2s,box-shadow .2s}
+.fld textarea{min-height:92px;resize:vertical}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 4px rgba(214,181,109,.28)}
+.fld.err input,.fld.err textarea,.fld.err select{border-color:var(--red)}
+.fld .em{display:none;color:var(--red);font-size:13px;margin-top:3px}.fld.err .em{display:block}
+.fld small.help{display:block;color:var(--muted);font-size:12.5px;margin-top:4px;line-height:1.5}
+.pw{position:relative}.pw button{position:absolute;right:4px;top:4px;width:40px;height:40px;border-radius:10px;color:var(--muted)}
+.chk{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-weight:600;font-size:14.5px}
+.chk input{width:22px;height:22px;min-height:0;accent-color:var(--dark);flex:none;margin-top:2px}
+.msg{padding:12px 14px;border-radius:12px;font-size:14px;font-weight:600;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start}
+.msg.no{background:#fdecec;color:#a42222;border:1px solid #f5c6c6}.msg.ok{background:#e7f6ee;color:#0b6b48;border:1px solid #bfe6d2}.msg.warn{background:#fff8e6;color:#6a5516;border:1px solid #f0dfae}
+.link{color:var(--gold-h);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.uid{font-family:Inter,monospace;background:var(--sand);border:1px dashed var(--gold-h);padding:10px 12px;border-radius:12px;word-break:break-all;font-size:13px;margin:8px 0}
+/* app shell */
+.app{display:grid;grid-template-columns:268px 1fr;min-height:100vh}
+.side{background:var(--dark);color:#d5e0dc;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;padding:16px 12px}
+.brand{display:flex;gap:11px;align-items:center;padding:6px 8px 16px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.brand i{width:42px;height:42px;border-radius:12px;background:var(--surface);color:var(--gold);display:grid;place-items:center;font-size:19px;border:1px solid rgba(214,181,109,.4)}
+.brand b{display:block;color:#fff;line-height:1.2}.brand small{font-size:12px;color:#93a8a1}
+.nv{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;min-height:46px;padding:0 12px;border-radius:12px;font-weight:600;color:#c3d1cc;transition:.2s;margin-bottom:2px}
+.nv i{width:22px;text-align:center;color:var(--gold);transition:transform .3s var(--ease)}
+.nv:hover{background:rgba(255,255,255,.07);color:#fff}.nv:hover i{transform:scale(1.15)}
+.nv.on{background:var(--gold);color:var(--dark)}.nv.on i{color:var(--dark)}
+.nv .cnt{margin-left:auto;background:var(--red);color:#fff;font-size:12px;font-weight:700;min-width:22px;height:22px;border-radius:11px;display:grid;place-items:center;padding:0 6px;animation:pop .4s var(--ease)}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.side-f{margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);display:grid;gap:8px}
+.side-f .who{font-size:12.5px;color:#93a8a1;word-break:break-all;padding:0 6px}
+.side-f .btn{min-height:42px;font-size:14px;color:#fff;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.side-f .btn:hover{background:rgba(255,255,255,.14)}
+.mainwrap{min-width:0}
+.top{position:sticky;top:0;z-index:30;background:rgba(244,241,234,.92);backdrop-filter:blur(10px);display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--line);min-height:62px}
+.top h1{font-size:1.2rem;color:var(--dark);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .burger{display:none}
+main{padding:22px 20px 40px;max-width:1120px}
+.view{animation:rise .45s var(--ease)}
+.ov{position:fixed;inset:0;background:rgba(6,20,17,.55);opacity:0;visibility:hidden;transition:.3s;z-index:70}.ov.open{opacity:1;visibility:visible}
+.bnav{display:none}
+/* cards & lists */
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:0 2px 10px -6px rgba(13,47,40,.2)}
+.pad{padding:20px}
+.sec-h{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.sec-h h2{font-size:1.25rem;color:var(--dark)}.sec-h small{color:var(--muted);font-weight:500}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{position:relative;flex:1;min-width:200px}.search i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search input{width:100%;min-height:44px;padding:0 14px 0 40px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:16px}
+.search input:focus{outline:0;border-color:var(--gold)}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}
+.it{overflow:hidden;display:flex;flex-direction:column;animation:rise .5s var(--ease) both;animation-delay:calc(var(--i,0)*45ms);transition:transform .3s var(--ease),box-shadow .3s}
+@media(hover:hover){.it:hover{transform:translateY(-4px);box-shadow:var(--shadow)}}
+.it .th{aspect-ratio:16/10;background:var(--sand);position:relative;display:grid;place-items:center;color:var(--gold-h);font-size:30px;overflow:hidden}
+.it .th img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}.it .th img.ld{opacity:1}
+.it .bd{padding:14px 16px;flex:1}
+.it h3{font-size:1.02rem;color:var(--dark);line-height:1.35}.it p{color:var(--muted);font-size:13.5px;margin-top:2px}
+.it .ac{display:flex;gap:8px;padding:0 14px 14px;align-items:center}.it .ac .sp{flex:1}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 11px;border-radius:999px;color:#fff;margin-bottom:6px}
+.p-completed{background:var(--green)}.p-ongoing{background:#c77a0a}.p-planned{background:#2563eb}.p-new{background:var(--red)}.p-done{background:var(--green)}.p-off{background:#8a958f}
+.empty{text-align:center;padding:44px 18px;border:2px dashed var(--line);border-radius:var(--r);color:var(--muted);background:#fff;grid-column:1/-1}
+.empty i{font-size:36px;color:var(--gold);display:block;margin-bottom:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
+.sc{display:block;padding:18px;position:relative;overflow:hidden;transition:transform .3s var(--ease);animation:rise .5s var(--ease) both;animation-delay:calc(var(--i,0)*60ms)}
+.sc:hover{transform:translateY(-4px)}
+.sc i{position:absolute;right:12px;top:12px;font-size:26px;color:var(--gold);opacity:.55}
+.sc b{display:block;font-size:2rem;color:var(--dark);line-height:1.1}.sc span{color:var(--muted);font-size:13.5px;font-weight:600}
+.sc.alert b{color:var(--red)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.row{display:flex;gap:12px;align-items:center;padding:12px 4px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .2s;border-radius:10px}
+.row:last-child{border-bottom:0}.row:hover{background:var(--cream)}
+.row .av{width:42px;height:42px;border-radius:50%;background:var(--sand);display:grid;place-items:center;color:var(--dark);font-weight:700;flex:none}
+.row .tx{flex:1;min-width:0}.row .tx b{display:block;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .tx small{color:var(--muted)}
+.row.unread b{color:#000}.row.unread .av{background:var(--dark);color:var(--gold)}
+.bar{height:10px;background:var(--sand);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-h));border-radius:6px;transition:width 1s var(--ease)}
+.ck{display:flex;gap:10px;align-items:center;padding:9px 4px;border-bottom:1px solid var(--line)}
+.ck:last-child{border:0}.ck i{width:22px;text-align:center}.ck .y{color:var(--green)}.ck .n{color:#c9c2b0}.ck a{margin-left:auto;font-size:13px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:6px}.chips::-webkit-scrollbar{display:none}
+.chip{position:relative;overflow:hidden;flex:none;min-height:40px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-weight:600;font-size:14px;transition:.2s}
+.chip.on{background:var(--dark);color:#fff;border-color:var(--dark)}
+/* form */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.fgrid .full{grid-column:1/-1}
+.imgbox{display:flex;gap:12px;align-items:center;margin-top:8px}
+.ithumb{width:92px;height:68px;border-radius:12px;background:var(--sand);overflow:hidden;flex:none;display:grid;place-items:center;color:var(--gold-h)}
+.ithumb img{width:100%;height:100%;object-fit:cover}
+.ithumb:empty::before,.ithumb:has(img[hidden])::before{content:"\f03e";font-family:"Font Awesome 6 Free";font-weight:900;font-size:22px}
+.istat{font-size:13px;font-weight:600;color:var(--muted);line-height:1.45}.istat.ok{color:var(--green)}.istat.bad{color:var(--red)}.istat.wait{color:#c77a0a}
+.rep{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;padding:12px;border:1.5px dashed var(--line);border-radius:14px;margin-bottom:10px;position:relative;background:var(--cream);animation:rise .35s var(--ease)}
+.rep .fld{margin:0}.rep .fld input,.rep .fld select{min-height:44px}
+.rep .rm{grid-column:1/-1;justify-self:end}
+.savebar{position:sticky;bottom:calc(10px + var(--safe-b));z-index:20;display:flex;gap:10px;align-items:center;justify-content:space-between;background:var(--dark);color:#fff;padding:12px 16px;border-radius:16px;box-shadow:var(--shadow);margin-top:18px;flex-wrap:wrap}
+.savebar span{font-size:14px;color:#c3d1cc}
+.set-sec{margin-bottom:18px}.set-sec h3{color:var(--dark);margin-bottom:4px;display:flex;gap:10px;align-items:center}.set-sec h3 i{color:var(--gold-h)}
+.set-sec>p{color:var(--muted);font-size:13.5px;margin-bottom:14px}
+pre.code{background:#0A241F;color:#d9e6e1;padding:16px;border-radius:14px;overflow:auto;font-size:12.5px;line-height:1.55;max-height:380px;font-family:Inter,Consolas,monospace;white-space:pre}
+ol.steps{padding-left:22px;display:grid;gap:8px}ol.steps li::marker{color:var(--gold-h);font-weight:700}
+details.fq{border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:#fff}details.fq summary{padding:13px 16px;cursor:pointer;font-weight:700;color:var(--dark);list-style:none;display:flex;justify-content:space-between;gap:10px}
+details.fq summary::-webkit-details-marker{display:none}details.fq div{padding:0 16px 14px;color:var(--muted)}details.fq[open] summary i{transform:rotate(180deg)}details.fq summary i{transition:.3s;color:var(--gold-h)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:14.5px}.kv dt{color:var(--muted);font-weight:600}.kv dd{word-break:break-word;color:var(--text)}
+/* media upload */
+.mbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.mbtns .up{cursor:pointer}
+.mbtns .dis{opacity:.5}
+.pbar{height:8px;background:var(--sand);border-radius:6px;overflow:hidden;margin-top:6px;display:none}.pbar.on{display:block}.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-h));transition:width .2s}
+.bkl{display:grid;gap:6px;margin:10px 0;max-height:220px;overflow:auto}
+.bkl div{display:flex;gap:8px;align-items:center;font-size:13.5px;padding:6px 10px;background:var(--cream);border-radius:10px}
+.bkl .ok{color:var(--green)}.bkl .bad{color:var(--red)}
+.pill.p-video{background:#7c3aed}
+/* modal */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;background:rgba(6,20,17,.6);backdrop-filter:blur(3px)}
+.modal.open{display:flex;animation:fade .25s}.modal.out{animation:fadeo .22s forwards}
+.modal.out .sheet{animation:sheetDown .22s forwards}
+@keyframes fade{from{opacity:0}to{opacity:1}}@keyframes fadeo{to{opacity:0}}
+.sheet{background:#fff;width:100%;max-width:760px;max-height:94vh;overflow-y:auto;border-radius:24px 24px 0 0;padding:8px 20px calc(20px + var(--safe-b));animation:sheetUp .42s var(--ease);-webkit-overflow-scrolling:touch}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}@keyframes sheetDown{to{transform:translateY(100%)}}
+.grab{width:44px;height:5px;border-radius:5px;background:#d6d1c4;margin:6px auto 8px}
+.sh-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:6px 0 16px;position:sticky;top:0;background:#fff;z-index:3;padding:4px 0}
+.sh-h h2{font-size:1.2rem;color:var(--dark)}
+.sh-f{display:flex;gap:10px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap;position:sticky;bottom:calc(-20px - var(--safe-b));background:#fff;padding:12px 0 calc(8px + var(--safe-b))}
+.ferr{margin-top:6px}
+.cfm{text-align:center;padding:10px 4px}.cfm i{font-size:40px;color:var(--red);margin-bottom:8px}.cfm h3{color:var(--dark);margin-bottom:6px}.cfm p{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(90px + var(--safe-b));transform:translate(-50%,20px);background:var(--dark);color:#fff;padding:12px 20px;border-radius:14px;font-weight:600;opacity:0;pointer-events:none;transition:.35s var(--ease);z-index:200;max-width:92vw;text-align:center;box-shadow:var(--shadow);border:1px solid rgba(214,181,109,.45)}
+.toast.show{opacity:1;transform:translate(-50%,0)}.toast.bad{background:var(--red);border-color:var(--red)}
+.sk{border-radius:var(--r);min-height:180px;background:linear-gradient(90deg,#eae6da 25%,#f6f3ea 37%,#eae6da 63%);background-size:400% 100%;animation:sk 1.4s infinite}@keyframes sk{0%{background-position:100% 0}100%{background-position:0 0}}
+@media(max-width:900px){
+ .app{display:block}
+ .side{position:fixed;left:0;top:0;bottom:0;width:min(86vw,300px);z-index:80;transform:translateX(-105%);transition:transform .38s var(--ease)}.side.open{transform:none}
+ .top .burger{display:grid}
+ .bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:6px 6px calc(6px + var(--safe-b));box-shadow:0 -10px 28px -16px rgba(13,47,40,.35)}
+ .bn{position:relative;overflow:hidden;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:50px;font-size:11px;font-weight:600;color:#7b8983;border-radius:12px}
+ .bn i{font-size:18px;transition:transform .3s var(--ease)}.bn.on{color:var(--dark)}.bn.on i{transform:translateY(-2px) scale(1.12);color:var(--gold-h)}
+ .bn .cnt{position:absolute;top:2px;right:calc(50% - 22px);background:var(--red);color:#fff;font-size:10px;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 4px}
+ main{padding:16px 14px calc(96px + var(--safe-b))}.top{padding:8px 12px}
+ .two{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}
+ .kv{grid-template-columns:100px 1fr}
+ .savebar{bottom:calc(76px + var(--safe-b))}
+}
+@media(min-width:901px){.modal{align-items:center}.sheet{border-radius:24px;padding-top:18px}.grab{display:none}.sh-f{bottom:-20px}.toast{bottom:28px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<div id="boot" class="center"><div class="spin"></div></div>
+
+<!-- SETUP (Firebase not configured) -->
+<section id="setup" class="center authbg" hidden><div class="acard" style="width:min(100%,560px)">
+  <div class="alogo"><i class="fa-solid fa-gear"></i></div><h1>Firebase কনফিগার করা হয়নি</h1>
+  <p class="sub">এই ফাইলের &lt;script&gt; অংশের শুরুতে <b>FIREBASE_CONFIG</b>-এ আপনার প্রজেক্টের মান বসান (index.html-এ যে মান বসিয়েছেন সেটাই)।</p>
+  <ol class="steps"><li>Firebase Console → Project settings → Your apps → Web app</li><li>config-এর মানগুলো কপি করে এই ফাইলে বসান</li><li>Authentication → Sign-in method → <b>Email/Password</b> চালু করুন</li><li>ফাইল সেভ করে আবার খুলুন</li></ol>
+</div></section>
+
+<!-- LOGIN -->
+<section id="login" class="center authbg" hidden><div class="acard">
+  <div class="alogo"><i class="fa-solid fa-hands-holding-child"></i></div>
+  <h1>অ্যাডমিন লগইন</h1><p class="sub">মানব প্রয়াস ফাউন্ডেশন</p>
+  <div class="msg no" id="l-err" hidden></div><div class="msg ok" id="l-ok" hidden></div>
+  <form id="l-form" novalidate>
+    <div class="fld"><label for="l-mail">ইমেইল</label><input id="l-mail" type="email" inputmode="email" autocomplete="username" required></div>
+    <div class="fld"><label for="l-pass">পাসওয়ার্ড</label><div class="pw"><input id="l-pass" type="password" autocomplete="current-password" required><button type="button" id="l-eye" aria-label="দেখান/লুকান"><i class="fa-regular fa-eye"></i></button></div></div>
+    <button class="btn btn-gold btn-w" type="submit"><i class="fa-solid fa-right-to-bracket"></i>প্রবেশ করুন</button>
+  </form>
+  <p style="text-align:center;margin-top:14px"><button class="link" id="l-forgot" type="button">পাসওয়ার্ড ভুলে গেছেন?</button></p>
+  <p style="text-align:center;margin-top:8px;font-size:13px"><a class="link" href="./">← সাইটে ফিরে যান</a></p>
+</div></section>
+
+<!-- DENIED -->
+<section id="denied" class="center authbg" hidden><div class="acard">
+  <div class="alogo" style="color:#ffb4a8"><i class="fa-solid fa-user-lock"></i></div><h1>অ্যাডমিন অনুমতি নেই</h1>
+  <p class="sub" id="d-mail"></p>
+  <p style="font-size:14px;color:var(--muted)">লগইন সফল, কিন্তু এই অ্যাকাউন্টকে অ্যাডমিন হিসেবে যুক্ত করা হয়নি। Firebase Console → Firestore-এ <b>admins</b> নামে একটি collection খুলে নিচের UID-কে <b>Document ID</b> দিয়ে একটি ডকুমেন্ট বানান (যেকোনো একটি ফিল্ড দিন, যেমন <code>role: "admin"</code>)।</p>
+  <div class="uid" id="d-uid"></div>
+  <div style="display:grid;gap:10px;margin-top:12px"><button class="btn btn-line btn-w" data-copy-text-from="#d-uid"><i class="fa-regular fa-copy"></i>UID কপি করুন</button><button class="btn btn-dark btn-w" id="d-retry"><i class="fa-solid fa-rotate"></i>আবার পরীক্ষা করুন</button><button class="btn btn-line btn-w" id="d-out"><i class="fa-solid fa-right-from-bracket"></i>লগআউট</button></div>
+</div></section>
+
+<!-- APP -->
+<div id="app" class="app" hidden>
+  <aside class="side" id="side" aria-label="মেনু">
+    <div class="brand"><i class="fa-solid fa-hands-holding-child"></i><div><b>মানব প্রয়াস</b><small>অ্যাডমিন প্যানেল</small></div></div>
+    <nav id="snav"></nav>
+    <div class="side-f"><div class="who" id="who"></div><a class="btn" href="./" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i>সাইট দেখুন</a><button class="btn" id="logout"><i class="fa-solid fa-right-from-bracket"></i>লগআউট</button></div>
+  </aside>
+  <div class="ov" id="ov"></div>
+  <div class="mainwrap">
+    <header class="top"><button class="ib burger" id="burger" aria-label="মেনু"><i class="fa-solid fa-bars"></i></button><h1 id="ptitle">ড্যাশবোর্ড</h1><a class="btn btn-line btn-sm" href="./" target="_blank" rel="noopener"><i class="fa-solid fa-eye"></i><span>সাইট</span></a></header>
+    <main><div id="view" class="view"></div></main>
+  </div>
+  <nav class="bnav" id="bnav" aria-label="দ্রুত মেনু"></nav>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module">
+/* =====================================================================
+   FIREBASE কনফিগারেশন — index.html-এ যে মান বসিয়েছেন, এখানেও সেটাই বসান।
+   ===================================================================== */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyB-P0cvt6LXZbVLvczUJDEUdQFqvN8iZpI",
+  authDomain: "manabproyas.firebaseapp.com",
+  projectId: "manabproyas",
+  storageBucket: "manabproyas.firebasestorage.app",
+  messagingSenderId: "506976728171",
+  appId: "1:506976728171:web:cd43440e26b3836a10ed2e"
+};
+/* Google Drive আপলোড স্ক্রিপ্টের Web App URL (drive-upload.gs ডিপ্লয় করার পর পাওয়া যায়, https://script.google.com/macros/s/…/exec)।
+   খালি থাকলে আপলোড বাটন কাজ করবে না, তবে Drive লিংক পেস্ট করা যাবে। */
+const DRIVE_SCRIPT_URL = "";
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut,sendPasswordResetEmail} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import {getFirestore,collection,doc,onSnapshot,addDoc,updateDoc,setDoc,deleteDoc,getDoc,serverTimestamp,writeBatch} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+/* ---------- helpers ---------- */
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const BNUM='০১২৩৪৫৬৭৮৯',bn=n=>String(n).replace(/\d/g,d=>BNUM[d]);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isHttps=u=>/^https:\/\//i.test(String(u||'').trim());
+/* Google Drive লিংক → সরাসরি দেখানো যায় এমন ছবির URL (index.html-এও একই লজিক) */
+function driveId(u){u=String(u||'').trim();if(!u)return'';if(/drive\.google\.com\/drive\/(u\/\d+\/)?folders/.test(u))return'';
+  const m=u.match(/\/file\/d\/([\w-]{10,})/)||u.match(/[?&]id=([\w-]{10,})/)||u.match(/googleusercontent\.com\/d\/([\w-]{10,})/)||u.match(/drive\.google\.com\/.*\/d\/([\w-]{10,})/);
+  if(m)return m[1];return /^[\w-]{25,}$/.test(u)?u:''}
+function imgUrl(u,w=800){u=String(u||'').trim();if(!u)return'';if(/drive\.google\.com\/drive\/(u\/\d+\/)?folders/.test(u))return'';const id=driveId(u);if(id)return`https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;return isHttps(u)?u:''}
+const PH="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400'><rect width='600' height='400' fill='#154238'/><circle cx='300' cy='200' r='44' fill='#D6B56D' opacity='.85'/></svg>");
+document.addEventListener('error',e=>{const t=e.target;if(!t||t.tagName!=='IMG'||t.dataset.nofb)return;const m=/drive\.google\.com\/thumbnail\?id=([\w-]+)&sz=w(\d+)/.exec(t.src);if(m&&!t.dataset.rt){t.dataset.rt=1;t.src=`https://lh3.googleusercontent.com/d/${m[1]}=w${m[2]}`;return}if(t.src!==PH)t.src=PH},true);
+const thumb=u=>{const y=ytId(u),s=y?`https://img.youtube.com/vi/${y}/hqdefault.jpg`:imgUrl(u,500);return s?`<img src="${esc(s)}" alt="" loading="lazy" referrerpolicy="no-referrer" onload="this.classList.add('ld')">`:''};
+const toDate=v=>v&&v.toDate?v.toDate():(typeof v==='string'&&/^\d{4}-\d{2}-\d{2}/.test(v)?new Date(v+'T00:00:00'):null);
+const iso=v=>{const d=toDate(v);if(!d||isNaN(d))return'';const p=n=>String(n).padStart(2,'0');return`${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`};
+const fmtDay=v=>{const d=toDate(v);return d&&!isNaN(d)?d.toLocaleDateString('bn-BD',{day:'numeric',month:'long',year:'numeric'}):(v?String(v):'')};
+const fmtTime=v=>{const d=v&&v.toDate?v.toDate():null;return d?d.toLocaleString('bn-BD',{dateStyle:'medium',timeStyle:'short'}):'এইমাত্র'};
+const getP=(o,p)=>p.split('.').reduce((a,k)=>a==null?a:a[k],o);
+const setP=(o,p,v)=>{const ks=p.split('.');let c=o;ks.slice(0,-1).forEach(k=>c=c[k]=c[k]||{});c[ks[ks.length-1]]=v};
+const store={get:k=>{try{return sessionStorage.getItem(k)}catch(e){return null}}};
+let tt;const toast=(m,bad)=>{const e=$('#toast');e.textContent=m;e.classList.toggle('bad',!!bad);e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),bad?4200:2600)};
+const show=id=>{['boot','setup','login','denied'].forEach(x=>$('#'+x).hidden=x!==id);$('#app').hidden=id!=='app'};
+const configured=!/^YOUR_/.test(FIREBASE_CONFIG.projectId||'YOUR_');
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* ripple on every button */
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.btn,.ib,.chip,.nv,.bn');if(!b||reduce)return;const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,s=document.createElement('span');s.className='rip';s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;b.appendChild(s);setTimeout(()=>s.remove(),650)});
+
+/* ---------- Google Drive (Apps Script) ---------- */
+const DRIVE_ON=()=>/^https:\/\/script\.google\.com\//.test(DRIVE_SCRIPT_URL);
+function ytId(u){const m=String(u||'').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/))([\w-]{11})/);return m?m[1]:''}
+async function driveCall(payload){const tok=await user.getIdToken();let r;
+  try{r=await fetch(DRIVE_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...payload,token:tok})})}catch(e){throw new Error('Drive স্ক্রিপ্টের সাথে যোগাযোগ করা যায়নি — ইন্টারনেট বা স্ক্রিপ্টের ডিপ্লয় সেটিং দেখুন।')}
+  let j;try{j=await r.json()}catch(e){throw new Error('Drive স্ক্রিপ্ট ঠিকমতো উত্তর দেয়নি — ডিপ্লয়ে "Who has access: Anyone" দিয়েছেন কি?')}
+  if(!j.ok)throw new Error(j.error||'Drive ত্রুটি');return j}
+const b64=blob=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=()=>rej(new Error('ফাইল পড়া যায়নি'));r.readAsDataURL(blob)});
+async function compress(file,max=1600,q=.82){
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type)||typeof createImageBitmap!=='function')return file;
+  try{let bmp;try{bmp=await createImageBitmap(file,{imageOrientation:'from-image'})}catch(_){bmp=await createImageBitmap(file)}
+   const sc=Math.min(1,max/Math.max(bmp.width,bmp.height)),w=Math.max(1,Math.round(bmp.width*sc)),h=Math.max(1,Math.round(bmp.height*sc));
+   const cv=document.createElement('canvas');cv.width=w;cv.height=h;const cx=cv.getContext('2d');if(!cx)return file;cx.fillStyle='#fff';cx.fillRect(0,0,w,h);cx.drawImage(bmp,0,0,w,h);if(bmp.close)bmp.close();
+   const blob=await new Promise(r=>cv.toBlob(r,'image/jpeg',q));if(!blob||(blob.size>=file.size&&sc===1))return file;
+   return new File([blob],(file.name||'photo').replace(/\.\w+$/,'')+'.jpg',{type:'image/jpeg'})}catch(e){return file}}
+function putSession(url,file,onProg){return new Promise((res,rej)=>{const x=new XMLHttpRequest();x.open('PUT',url);x.setRequestHeader('Content-Type',file.type||'video/mp4');
+  x.upload.onprogress=e=>{if(e.lengthComputable&&onProg)onProg(e.loaded/e.total)};
+  x.onload=()=>{if(x.status>=200&&x.status<300){try{res(JSON.parse(x.responseText))}catch(e){rej(new Error('উত্তর বোঝা যায়নি'))}}else rej(new Error('ভিডিও আপলোড ব্যর্থ ('+x.status+')'))};
+  x.onerror=()=>rej(new Error('ভিডিও আপলোড ব্যর্থ — নেটওয়ার্ক/CORS সমস্যা। ছোট ভিডিও হলে Drive-এ নিজে আপলোড করে লিংক পেস্ট করুন, বড় ভিডিও YouTube-এ (Unlisted) দিন।'));x.send(file)})}
+const FOLDERS={projects:'projects',gallery:'gallery',news:'news',team:'team',stories:'stories',site:'site'};
+async function uploadFile(file,kind,folder,onProg){
+  if(!DRIVE_ON())throw new Error('Drive আপলোড সেটআপ হয়নি। সেটআপ গাইড দেখুন বা Drive লিংক পেস্ট করুন।');
+  if(kind==='video'){if(file.size>300*1024*1024)throw new Error('ভিডিও ৩০০ MB-এর বেশি। YouTube (Unlisted) ব্যবহার করুন।');
+    const s=await driveCall({action:'initVideo',folder:'videos',name:file.name,mime:file.type||'video/mp4',size:file.size,origin:location.origin});
+    const up=await putSession(s.session,file,onProg);const f=await driveCall({action:'finalize',id:up.id});return{id:f.id,url:f.url}}
+  if(kind==='image'){file=await compress(file)}
+  if(file.size>15*1024*1024)throw new Error('ফাইল ১৫ MB-এর বেশি বড়।');
+  const r=await driveCall({action:'upload',folder:kind==='pdf'?'reports':folder,name:file.name,mime:file.type,data:await b64(file)});return{id:r.id,url:r.url}}
+async function trashIds(ids){ids=[...new Set(ids.filter(Boolean))];if(!ids.length||!DRIVE_ON())return;try{await driveCall({action:'trash',ids})}catch(e){console.warn('trash failed',e)}}
+function stillUsed(id,ex={}){return ENTK.some(k=>D[k].some(x=>!(ex.k===k&&ex.id===x.id)&&JSON.stringify(x).includes(id)))||(!ex.site&&JSON.stringify(D.site||{}).includes(id))}
+let FS=null;const newFS=k=>({k,trash:new Set(),up:new Set(),saved:false});
+function endFS(){const f=FS;FS=null;if(f&&!f.saved&&f.up.size)trashIds([...f.up])}
+function noteChange(oldVal,newId){const old=driveId(oldVal);if(old&&FS){if(FS.up.has(old)){FS.up.delete(old);trashIds([old])}else FS.trash.add(old)}if(newId&&FS)FS.up.add(newId)}
+
+/* ---------- modal ---------- */
+const modal=$('#modal'),sheet=$('#sheet');let lastFocus=null,modalCleanup=null;
+function openModal(html){lastFocus=document.activeElement;sheet.innerHTML=html;modal.classList.remove('out');modal.classList.add('open');document.body.classList.add('lock');sheet.scrollTop=0;const f=$('input:not([type=hidden]),textarea,select',sheet);if(f&&innerWidth>900)f.focus()}
+function closeModal(){if(!modal.classList.contains('open'))return;if(modalCleanup){const c=modalCleanup;modalCleanup=null;c()}modal.classList.add('out');setTimeout(()=>{modal.classList.remove('open','out');if(!$('#side').classList.contains('open'))document.body.classList.remove('lock');if(lastFocus&&lastFocus.focus)lastFocus.focus()},reduce?0:210)}
+modal.addEventListener('mousedown',e=>{if(e.target===modal)closeModal()});
+addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSide()}});
+function askConfirm(title,text,okLabel='মুছে ফেলুন'){return new Promise(res=>{openModal(`<div class="grab"></div><div class="cfm"><i class="fa-solid fa-triangle-exclamation"></i><h3>${esc(title)}</h3><p>${esc(text)}</p></div><div class="sh-f" style="position:static;justify-content:center"><button class="btn btn-line" id="cf-no">বাতিল</button><button class="btn btn-red" id="cf-yes">${esc(okLabel)}</button></div>`);
+  $('#cf-no').onclick=()=>{closeModal();res(false)};$('#cf-yes').onclick=()=>{closeModal();res(true)}})}
+
+/* ---------- data model ---------- */
+const COL={projects:'projects',gallery:'gallery',news:'news',team:'team',stories:'testimonials',volunteers:'volunteers',messages:'messages'};
+const D={projects:[],gallery:[],news:[],team:[],stories:[],volunteers:[],messages:[],site:{}};
+const L={};// loaded flags
+const STATUS=[['ongoing','চলমান'],['completed','সম্পন্ন'],['planned','পরিকল্পিত']];
+const stLabel=Object.fromEntries(STATUS);
+const INTEREST={relief:'ত্রাণ বিতরণ ও ক্ষেত্রীয় কাজ',edu:'শিক্ষা ও মেধা প্রশিক্ষণ',media:'প্রচার ও সচেতনতা বৃদ্ধি',tech:'প্রযুক্তি ও অনলাইন সহায়তা'};
+const ENT={
+ projects:{one:'প্রকল্প',title:'প্রকল্পসমূহ',icon:'fa-diagram-project',order:'top',
+  fields:[{k:'status',label:'অবস্থা',type:'select',opts:STATUS,req:1,full:1},
+   {k:'title_bn',label:'শিরোনাম (বাংলা)',req:1,max:150},{k:'title_en',label:'Title (English)',max:150},
+   {k:'location_bn',label:'স্থান (বাংলা)',max:120},{k:'location_en',label:'Location (English)',max:120},
+   {k:'date_bn',label:'সময় (বাংলা) — যেমন: ২০২৪ - চলমান',max:60},{k:'date_en',label:'Date (English) — e.g. 2024 – ongoing',max:60},
+   {k:'objective_bn',label:'মূল উদ্দেশ্য (বাংলা)',type:'textarea',req:1,max:400},{k:'objective_en',label:'Objective (English)',type:'textarea',max:400},
+   {k:'desc_bn',label:'বিস্তারিত বিবরণ (বাংলা)',type:'textarea',rows:4,max:1500},{k:'desc_en',label:'Description (English)',type:'textarea',rows:4,max:1500},
+   {k:'img_before',label:'আগের অবস্থার ছবি',type:'image',full:1},{k:'img_after',label:'পরের / বর্তমান অবস্থার ছবি',type:'image',full:1,req:1},
+   {k:'video',label:'ভিডিও (ঐচ্ছিক — Google Drive বা YouTube)',type:'video',full:1}],
+  item:d=>({t:d.title_bn||d.title_en,s:[d.location_bn,d.date_bn].filter(Boolean).join(' • '),th:d.img_after||d.img_before,pill:[d.status||'ongoing','p-'+(d.status||'ongoing'),stLabel[d.status]||'']})},
+ gallery:{one:'ছবি',title:'গ্যালারি',icon:'fa-images',order:'top',bulk:1,
+  fields:[{k:'type',label:'ধরন',type:'select',opts:[['image','ছবি'],['video','ভিডিও']],full:1},
+   {k:'img',label:'ছবি (ভিডিও হলে কভার ছবি — ঐচ্ছিক)',type:'image',full:1,req:r=>r.type!=='video'},
+   {k:'video',label:'ভিডিও (Google Drive বা YouTube)',type:'video',full:1,showif:['type','video'],req:true},
+   {k:'title_bn',label:'ক্যাপশন (বাংলা)',max:100},{k:'title_en',label:'Caption (English)',max:100}],
+  item:d=>({t:d.title_bn||d.title_en||'(ক্যাপশন নেই)',s:d.title_en||'',th:d.img||(d.type==='video'?d.video:''),pill:d.type==='video'?['video','p-video','ভিডিও']:null})},
+ news:{one:'সংবাদ',title:'সংবাদ ও ইভেন্ট',icon:'fa-newspaper',order:'date',
+  fields:[{k:'date',label:'তারিখ',type:'date',req:1,full:1},{k:'title_bn',label:'শিরোনাম (বাংলা)',req:1,max:160},{k:'title_en',label:'Title (English)',max:160},
+   {k:'desc_bn',label:'বিবরণ (বাংলা)',type:'textarea',rows:4,req:1,max:1500},{k:'desc_en',label:'Description (English)',type:'textarea',rows:4,max:1500},
+   {k:'img',label:'ছবি (ঐচ্ছিক)',type:'image',full:1}],
+  item:d=>({t:d.title_bn||d.title_en,s:fmtDay(d.date),th:d.img})},
+ team:{one:'সদস্য',title:'আমাদের নেতৃত্ব',icon:'fa-users',order:'end',
+  fields:[{k:'name_bn',label:'নাম (বাংলা)',req:1,max:80},{k:'name_en',label:'Name (English)',max:80},{k:'role_bn',label:'পদবি (বাংলা)',req:1,max:80},{k:'role_en',label:'Designation (English)',max:80},
+   {k:'photo',label:'ছবি (ঐচ্ছিক)',type:'image',full:1}],
+  item:d=>({t:d.name_bn||d.name_en,s:d.role_bn||d.role_en,th:d.photo})},
+ stories:{one:'মতামত',title:'মানুষের কথা',icon:'fa-comments',order:'end',
+  fields:[{k:'name_bn',label:'নাম (বাংলা)',req:1,max:80},{k:'name_en',label:'Name (English)',max:80},{k:'role_bn',label:'পরিচয় (বাংলা) — যেমন: উপকারভোগী, স্বেচ্ছাসেবক',max:80},{k:'role_en',label:'Who (English)',max:80},
+   {k:'quote_bn',label:'বক্তব্য (বাংলা)',type:'textarea',rows:4,req:1,max:600},{k:'quote_en',label:'Quote (English)',type:'textarea',rows:4,max:600},
+   {k:'photo',label:'ছবি (ঐচ্ছিক)',type:'image',full:1},
+   {k:'consent',label:'এই ব্যক্তির নাম, বক্তব্য ও ছবি প্রকাশের লিখিত/মৌখিক সম্মতি নেওয়া হয়েছে',type:'checkbox',full:1,req:1}],
+  item:d=>({t:d.name_bn||d.name_en,s:(d.quote_bn||'').slice(0,90),th:d.photo,pill:d.consent?null:['off','p-off','সম্মতি নেই']})}
+};
+const ENTK=Object.keys(ENT);
+const tsec=x=>x&&x.createdAt?(x.createdAt.seconds??9e9):9e9;
+function sortList(k,a){if(k==='news')return a.sort((x,y)=>(iso(y.date)||'').localeCompare(iso(x.date)||'')||tsec(y)-tsec(x));
+  if(ENT[k])return a.sort((x,y)=>((x.order??1e9)-(y.order??1e9))||(tsec(y)-tsec(x)));return a.sort((x,y)=>tsec(y)-tsec(x))}
+
+/* ---------- state ---------- */
+let app,auth,db,user=null,unsubs=[];
+const Q={},F={volunteers:'all',messages:'all'};
+let route='dashboard',dirty=false,statsAnim=false;
+
+/* ---------- navigation ---------- */
+const NAV=[['dashboard','fa-gauge-high','ড্যাশবোর্ড'],['projects','fa-diagram-project','প্রকল্প'],['gallery','fa-images','গ্যালারি'],['news','fa-newspaper','সংবাদ ও ইভেন্ট'],['team','fa-users','নেতৃত্ব'],['stories','fa-comments','মানুষের কথা'],['volunteers','fa-hand-holding-heart','স্বেচ্ছাসেবক আবেদন'],['messages','fa-envelope','বার্তা'],['settings','fa-gear','সাইট সেটিংস'],['help','fa-circle-question','সেটআপ গাইড']];
+const BN_NAV=['dashboard','projects','volunteers','settings'];
+const newCount=k=>D[k].filter(x=>x.status==='new').length;
+function renderNav(){const c={volunteers:newCount('volunteers'),messages:newCount('messages')};
+  $('#snav').innerHTML=NAV.map(([r,ic,l])=>`<a class="nv ${route===r?'on':''}" href="#/${r}"><i class="fa-solid ${ic}"></i>${l}${c[r]?`<span class="cnt">${bn(c[r])}</span>`:''}</a>`).join('');
+  $('#bnav').innerHTML=BN_NAV.map(r=>{const n=NAV.find(x=>x[0]===r);return `<a class="bn ${route===r?'on':''}" href="#/${r}"><i class="fa-solid ${n[1]}"></i>${n[2].split(' ')[0]}${c[r]?`<span class="cnt">${bn(c[r])}</span>`:''}</a>`}).join('')+`<button class="bn" id="bn-more"><i class="fa-solid fa-bars"></i>আরও</button>`;
+  const more=$('#bn-more');if(more)more.onclick=openSide}
+function openSide(){$('#side').classList.add('open');$('#ov').classList.add('open');document.body.classList.add('lock')}
+function closeSide(){$('#side').classList.remove('open');$('#ov').classList.remove('open');if(!modal.classList.contains('open'))document.body.classList.remove('lock')}
+$('#burger').onclick=openSide;$('#ov').onclick=closeSide;
+function go(){const r=location.hash.replace(/^#\/?/,'')||'dashboard';endFS();route=NAV.some(n=>n[0]===r)?r:'dashboard';if(route==='settings')FS=newFS('site');dirty=false;closeSide();renderNav();$('#ptitle').textContent=NAV.find(n=>n[0]===route)[2];scrollTo(0,0);renderView(true)}
+addEventListener('hashchange',()=>{if(user&&!$('#app').hidden)go()});
+
+/* ---------- views ---------- */
+let rq=0;function schedule(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;renderNav();renderView(false)})}
+function renderView(force){const v=$('#view');
+  if(route==='settings'){if(force||!dirty&&L.site&&!v.dataset.siteLoaded){v.dataset.siteLoaded=L.site?1:'';v.innerHTML=viewSettings()}return}
+  v.dataset.siteLoaded='';
+  if(route==='dashboard')v.innerHTML=viewDash();
+  else if(ENT[route]){if(force||!$('#items',v)){v.innerHTML=viewEntityShell(route)}else{renderCount(route)}renderItems(route)}
+  else if(route==='volunteers'||route==='messages')v.innerHTML=viewInbox(route);
+  else if(route==='help')v.innerHTML=viewHelp();
+  if(force&&route==='dashboard')animateCounts()}
+const skel=n=>Array.from({length:n},()=>'<div class="sk"></div>').join('');
+
+/* dashboard */
+function viewDash(){const nv=newCount('volunteers'),nm=newCount('messages');
+ const stat=(k,ic,lab,n,alert)=>`<a class="card sc ${alert&&n?'alert':''}" href="#/${k}" style="--i:${['projects','gallery','news','team','stories','volunteers','messages'].indexOf(k)}"><i class="fa-solid ${ic}"></i><b data-n="${n}">${statsAnim?bn(n):bn(0)}</b><span>${lab}</span></a>`;
+ const S=D.site||{},P=S.payments||{};
+ const chk=[[!!S.phone&&!!S.email,'ফোন ও ইমেইল দেওয়া হয়েছে','settings'],[!!S.address_bn,'অফিসের ঠিকানা দেওয়া হয়েছে','settings'],[!!S.hero_img,'হোমপেজের মূল ছবি (Drive) দেওয়া হয়েছে','settings'],[!!(P.bkash||P.nagad||P.rocket||P.bank_acc_no),'সহায়তা গ্রহণের অফিসিয়াল নম্বর/অ্যাকাউন্ট দেওয়া হয়েছে','settings'],[!!S.facebook,'ফেসবুক পেজের লিংক দেওয়া হয়েছে','settings'],[!!S.reg_no,'সংস্থার নিবন্ধন নম্বর দেওয়া হয়েছে','settings'],[D.projects.length>0,'অন্তত একটি প্রকল্প যোগ হয়েছে','projects'],[D.gallery.length>=4,'গ্যালারিতে ৪+ ছবি আছে','gallery'],[D.team.length>0,'নেতৃত্বের তালিকা দেওয়া হয়েছে','team'],[(S.reports||[]).length>0,'বার্ষিক প্রতিবেদন (PDF) যুক্ত হয়েছে','settings']];
+ const done=chk.filter(c=>c[0]).length,pct=Math.round(done/chk.length*100);
+ const recent=[...D.volunteers.map(x=>({...x,_k:'volunteers'})),...D.messages.map(x=>({...x,_k:'messages'}))].sort((a,b)=>tsec(b)-tsec(a)).slice(0,6);
+ return `<div class="sec-h"><div><h2>স্বাগতম 👋</h2><small>আপনার সাইটের সারাংশ</small></div><div class="tools"><button class="btn btn-gold btn-sm" data-new="projects"><i class="fa-solid fa-plus"></i>নতুন প্রকল্প</button><button class="btn btn-dark btn-sm" data-new="news"><i class="fa-solid fa-plus"></i>সংবাদ</button><button class="btn btn-line btn-sm" data-bulk><i class="fa-solid fa-images"></i>ছবি যোগ</button></div></div>
+ <div class="stats">${stat('projects','fa-diagram-project','প্রকল্প',D.projects.length)}${stat('gallery','fa-images','গ্যালারি ছবি',D.gallery.length)}${stat('news','fa-newspaper','সংবাদ',D.news.length)}${stat('team','fa-users','নেতৃত্ব',D.team.length)}${stat('volunteers','fa-hand-holding-heart','নতুন আবেদন',nv,1)}${stat('messages','fa-envelope','নতুন বার্তা',nm,1)}</div>
+ <div class="two"><div class="card pad"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-solid fa-inbox" style="color:var(--gold-h)"></i> সাম্প্রতিক আবেদন ও বার্তা</h3>${recent.length?recent.map(r=>`<div class="row ${r.status==='new'?'unread':''}" data-open="${r._k}:${esc(r.id)}"><div class="av">${esc((r.name||'?').trim().charAt(0))}</div><div class="tx"><b>${esc(r.name)}</b><small>${r._k==='volunteers'?'স্বেচ্ছাসেবক আবেদন':'বার্তা'} • ${esc(fmtTime(r.createdAt))}</small></div>${r.status==='new'?'<span class="pill p-new" style="margin:0">নতুন</span>':''}</div>`).join(''):'<p style="color:var(--muted);padding:14px 4px">এখনো কোনো আবেদন বা বার্তা আসেনি।</p>'}</div>
+ <div class="card pad"><h3 style="color:var(--dark);margin-bottom:8px"><i class="fa-solid fa-list-check" style="color:var(--gold-h)"></i> সাইট সম্পূর্ণতা — ${bn(pct)}%</h3><div class="bar" style="margin-bottom:10px"><i style="width:${pct}%"></i></div>${chk.map(c=>`<div class="ck"><i class="fa-solid ${c[0]?'fa-circle-check y':'fa-circle n'}"></i><span>${c[1]}</span>${c[0]?'':`<a class="link" href="#/${c[2]}">করুন</a>`}</div>`).join('')}</div></div>`}
+function animateCounts(){statsAnim=true;$$('[data-n]').forEach(el=>{const to=+el.dataset.n;if(reduce||!to){el.textContent=bn(to);return}const t0=performance.now();const f=n=>{const p=Math.min(1,(n-t0)/900);el.textContent=bn(Math.round(to*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
+
+/* entity list */
+function viewEntityShell(k){const E=ENT[k];return `<div class="sec-h"><div><h2><i class="fa-solid ${E.icon}" style="color:var(--gold-h)"></i> ${E.title}</h2><small id="cnt"></small></div><div class="tools">${E.bulk?'<button class="btn btn-line btn-sm" data-bulk><i class="fa-solid fa-layer-group"></i>একসাথে অনেক ছবি</button>':''}<button class="btn btn-gold" data-new="${k}"><i class="fa-solid fa-plus"></i>নতুন ${E.one}</button></div></div>
+ <div class="tools" style="margin-bottom:16px"><label class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="q" type="search" placeholder="খুঁজুন…" value="${esc(Q[k]||'')}"></label></div><div class="items" id="items"></div>`}
+function renderCount(k){const c=$('#cnt');if(c)c.textContent=L[k]?`মোট ${bn(D[k].length)}টি`:'লোড হচ্ছে…'}
+function renderItems(k){const E=ENT[k],box=$('#items');if(!box)return;renderCount(k);
+  if(!L[k]){box.innerHTML=skel(3);return}
+  const q=(Q[k]||'').trim().toLowerCase();const list=D[k].filter(d=>!q||JSON.stringify(Object.values(d).filter(v=>typeof v==='string')).toLowerCase().includes(q));
+  const mv=E.order!=='date'&&!q;
+  box.innerHTML=list.length?list.map((d,i)=>{const it=E.item(d);const idx=D[k].indexOf(d);
+   return `<article class="card it" style="--i:${Math.min(i,12)}"><div class="th">${it.th&&thumb(it.th)||`<i class="fa-solid ${E.icon}"></i>`}</div><div class="bd">${it.pill?`<span class="pill ${it.pill[1]}">${esc(it.pill[2])}</span>`:''}<h3>${esc(it.t)}</h3>${it.s?`<p>${esc(it.s)}</p>`:''}</div>
+   <div class="ac"><button class="btn btn-dark btn-sm" data-edit="${k}:${esc(d.id)}"><i class="fa-solid fa-pen"></i>সম্পাদনা</button><span class="sp"></span>${mv?`<button class="ib" data-mv="${k}:${esc(d.id)}:-1" aria-label="উপরে" ${idx===0?'disabled':''}><i class="fa-solid fa-arrow-up"></i></button><button class="ib" data-mv="${k}:${esc(d.id)}:1" aria-label="নিচে" ${idx===D[k].length-1?'disabled':''}><i class="fa-solid fa-arrow-down"></i></button>`:''}<button class="ib red" data-del="${k}:${esc(d.id)}" aria-label="মুছুন"><i class="fa-solid fa-trash-can"></i></button></div></article>`}).join(''):`<div class="empty"><i class="fa-regular fa-folder-open"></i>${q?'কিছু পাওয়া যায়নি।':`এখনো কিছু যোগ করা হয়নি। উপরের "নতুন ${E.one}" বাটনে চাপ দিন।`}</div>`}
+document.addEventListener('input',e=>{if(e.target.id==='q'){Q[route]=e.target.value;renderItems(route)}});
+
+/* inbox */
+function viewInbox(k){const list=D[k],f=F[k],isV=k==='volunteers',shown=list.filter(x=>f==='all'||x.status==='new');
+ return `<div class="sec-h"><div><h2><i class="fa-solid ${isV?'fa-hand-holding-heart':'fa-envelope'}" style="color:var(--gold-h)"></i> ${isV?'স্বেচ্ছাসেবক আবেদন':'যোগাযোগ বার্তা'}</h2><small>মোট ${bn(list.length)}টি • নতুন ${bn(newCount(k))}টি</small></div>${isV?'<button class="btn btn-line btn-sm" data-csv><i class="fa-solid fa-file-csv"></i>CSV ডাউনলোড</button>':''}</div>
+ <div class="chips" style="margin-bottom:12px"><button class="chip ${f==='all'?'on':''}" data-flt="${k}:all">সব</button><button class="chip ${f==='new'?'on':''}" data-flt="${k}:new">শুধু নতুন</button></div>
+ <div class="card pad" style="padding:8px 14px">${!L[k]?skel(2):shown.length?shown.map(r=>`<div class="row ${r.status==='new'?'unread':''}" data-open="${k}:${esc(r.id)}"><div class="av">${esc((r.name||'?').trim().charAt(0))}</div><div class="tx"><b>${esc(r.name)}</b><small>${isV?esc(r.phone||'')+' • '+esc(INTEREST[r.interest]||''):esc(r.subject||(r.message||'').slice(0,60))}</small><br><small>${esc(fmtTime(r.createdAt))}</small></div>${r.status==='new'?'<span class="pill p-new" style="margin:0">নতুন</span>':'<i class="fa-solid fa-circle-check" style="color:var(--green)"></i>'}</div>`).join(''):'<div class="empty" style="border:0"><i class="fa-regular fa-inbox"></i>কিছু নেই।</div>'}</div>`}
+function openInbox(k,id){const r=D[k].find(x=>x.id===id);if(!r)return;const isV=k==='volunteers';
+ if(r.status==='new'&&!isV)updateDoc(doc(db,COL[k],id),{status:'read'}).catch(()=>{});
+ let wa=String(r.phone||'').replace(/[^\d]/g,'');if(/^01/.test(wa))wa='88'+wa;
+ const rows=isV?[['নাম',r.name],['মোবাইল',r.phone],['ইমেইল',r.email||'—'],['ঠিকানা',r.address],['আগ্রহের ক্ষেত্র',INTEREST[r.interest]||r.interest],['সময়',fmtTime(r.createdAt)]]:[['নাম',r.name],['ইমেইল',r.email],['বিষয়',r.subject||'—'],['বার্তা',r.message],['সময়',fmtTime(r.createdAt)]];
+ openModal(`<div class="grab"></div><div class="sh-h"><h2>${isV?'আবেদনের বিবরণ':'বার্তার বিবরণ'}</h2><button class="ib" data-close aria-label="বন্ধ"><i class="fa-solid fa-xmark"></i></button></div><dl class="kv">${rows.map(([a,b])=>`<dt>${a}</dt><dd style="white-space:pre-wrap">${esc(b)}</dd>`).join('')}</dl>
+ <div class="sh-f" style="justify-content:flex-start;position:static;margin-top:16px">${isV&&r.phone?`<a class="btn btn-dark btn-sm" href="tel:${esc(r.phone)}"><i class="fa-solid fa-phone"></i>কল</a><a class="btn btn-gold btn-sm" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>`:''}${r.email?`<a class="btn btn-line btn-sm" href="mailto:${esc(r.email)}${isV?'':'?subject='+encodeURIComponent('Re: '+(r.subject||''))}"><i class="fa-solid fa-envelope"></i>ইমেইল</a>`:''}${isV&&r.status==='new'?`<button class="btn btn-line btn-sm" id="mk"><i class="fa-solid fa-check"></i>যোগাযোগ করা হয়েছে</button>`:''}<button class="btn btn-red btn-sm" id="rm" style="margin-left:auto"><i class="fa-solid fa-trash-can"></i>মুছুন</button></div>`);
+ const mk=$('#mk');if(mk)mk.onclick=async()=>{try{await updateDoc(doc(db,COL[k],id),{status:'done'});toast('চিহ্নিত হয়েছে');closeModal()}catch(e){fail(e)}};
+ $('#rm').onclick=async()=>{closeModal();await sleep(260);if(await askConfirm('মুছে ফেলবেন?','এটি স্থায়ীভাবে মুছে যাবে।')){try{await deleteDoc(doc(db,COL[k],id));toast('মুছে ফেলা হয়েছে')}catch(e){fail(e)}}}}
+function exportCSV(){const rows=[['সময়','নাম','মোবাইল','ইমেইল','ঠিকানা','আগ্রহের ক্ষেত্র','অবস্থা']].concat(D.volunteers.map(r=>[fmtTime(r.createdAt),r.name,r.phone,r.email||'',r.address,INTEREST[r.interest]||r.interest,r.status==='new'?'নতুন':'যোগাযোগ হয়েছে']));
+  const csv='\ufeff'+rows.map(r=>r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='volunteers.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+
+/* ---------- form builder ---------- */
+function fld(f,val){const id='f_'+f.k.replace(/\W/g,'_'),v=val==null?'':val,cls='fld'+(f.full?' full':''),help=f.help?`<small class="help">${f.help}</small>`:'';
+ const lab=`<label for="${id}">${esc(f.label)}${f.req?' <b class="rq">*</b>':''}</label>`;
+ if(f.type==='checkbox')return `<div class="${cls}" data-fk="${f.k}"><label class="chk"><input type="checkbox" id="${id}" data-k="${f.k}" ${v?'checked':''}><span>${esc(f.label)}${f.req?' <b class="rq">*</b>':''}</span></label>${help}<div class="em">এটি আবশ্যক</div></div>`;
+ let c;
+ if(f.type==='textarea')c=`<textarea id="${id}" data-k="${f.k}" rows="${f.rows||3}" maxlength="${f.max||2000}">${esc(v)}</textarea>`;
+ else if(f.type==='select')c=`<select id="${id}" data-k="${f.k}">${f.opts.map(([a,b])=>`<option value="${a}" ${a===v?'selected':''}>${esc(b)}</option>`).join('')}</select>`;
+ else if(f.type==='image')c=`<input id="${id}" data-k="${f.k}" data-img="1" type="text" inputmode="url" autocomplete="off" placeholder="আপলোড করুন, অথবা Drive লিংক পেস্ট করুন" value="${esc(v)}">${mbtns('image')}<div class="imgbox"><div class="ithumb"><img data-nofb="1" alt="" hidden referrerpolicy="no-referrer"></div><div class="istat"></div></div><div class="pbar"><i></i></div>`;
+ else if(f.type==='video')c=`<input id="${id}" data-k="${f.k}" data-vid="1" type="text" inputmode="url" autocomplete="off" placeholder="আপলোড করুন, অথবা Drive / YouTube লিংক পেস্ট করুন" value="${esc(v)}">${mbtns('video')}<div class="istat" style="margin-top:6px"></div><div class="pbar"><i></i></div><small class="help">বড় ভিডিও হলে YouTube-এ <b>Unlisted</b> আপলোড করে লিংক দিন — সাইটে দ্রুত চলবে।</small>`;
+ else c=`<input id="${id}" data-k="${f.k}" type="${f.type||'text'}" ${f.type==='tel'?'inputmode="tel"':''} maxlength="${f.max||300}" value="${esc(v)}" ${f.ph?`placeholder="${esc(f.ph)}"`:''}>`;
+ return `<div class="${cls}" data-fk="${f.k}"${f.showif?` data-showif="${f.showif.join('=')}"`:''}>${lab}${c}${f.type==='image'?'':help}<div class="em"></div></div>`}
+const mbtns=(kind)=>`<div class="mbtns"><label class="btn btn-line btn-sm up ${DRIVE_ON()?'':'dis'}"><i class="fa-solid fa-cloud-arrow-up"></i><span>${kind==='video'?'ভিডিও আপলোড':kind==='pdf'?'PDF আপলোড':'ছবি আপলোড / বদলান'}</span><input type="file" accept="${kind==='video'?'video/*':kind==='pdf'?'application/pdf':'image/*'}" data-up="${kind}" hidden></label><button type="button" class="btn btn-line btn-sm" data-clr><i class="fa-solid fa-trash-can"></i>মুছুন</button></div>`;
+function checkImg(inp){const box=inp.closest('.fld'),im=$('img',box),st=$('.istat',box),v=inp.value.trim();inp._t=(inp._t||0)+1;const token=inp._t;
+ const bad=m=>{im.hidden=true;st.className='istat bad';st.textContent=m;inp.dataset.bad='1'};inp.dataset.bad='';
+ if(!v){im.hidden=true;st.className='istat';st.textContent='';return}
+ if(/drive\.google\.com\/drive\/(u\/\d+\/)?folders/.test(v))return bad('এটি ফোল্ডারের লিংক। ফোল্ডার নয়, প্রতিটি ছবির নিজস্ব শেয়ার লিংক দিন।');
+ const u=imgUrl(v,400);if(!u)return bad('সঠিক লিংক নয়। Google Drive-এর শেয়ার লিংক (https://drive.google.com/file/d/…) দিন।');
+ st.className='istat wait';st.textContent='ছবি যাচাই হচ্ছে…';const id=driveId(v);
+ const tryLoad=(src,fb)=>{const p=new Image();p.referrerPolicy='no-referrer';p.onload=()=>{if(token!==inp._t)return;im.src=src;im.hidden=false;st.className='istat ok';st.textContent='✓ ছবি ঠিক আছে'};p.onerror=()=>{if(token!==inp._t)return;if(fb)tryLoad(fb);else bad('ছবি লোড হচ্ছে না। Drive-এ ফাইলটির শেয়ারিং "Anyone with the link → Viewer" করুন।')};p.src=src};
+ tryLoad(u,id?`https://lh3.googleusercontent.com/d/${id}=w400`:null)}
+function checkVid(inp){const st=$('.istat',inp.closest('.fld')),v=inp.value.trim();inp.dataset.bad='';
+  if(!v){st.className='istat';st.textContent='';return}
+  if(ytId(v)){st.className='istat ok';st.textContent='✓ YouTube ভিডিও';return}
+  if(driveId(v)){st.className='istat ok';st.textContent='✓ Drive ভিডিও (শেয়ারিং "Anyone with the link" থাকতে হবে)';return}
+  st.className='istat bad';st.textContent='Drive বা YouTube ভিডিওর লিংক দিন।';inp.dataset.bad='1'}
+function applyShowif(root){$$('[data-showif]',root).forEach(w=>{const [k,val]=w.dataset.showif.split('='),c=$(`[data-k="${k}"]`,root);w.hidden=!c||c.value!==val})}
+function wireImgs(root){$$('[data-img]',root).forEach(inp=>{let t;inp.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>checkImg(inp),450)});if(inp.value.trim())checkImg(inp)});
+  $$('[data-vid]',root).forEach(inp=>{inp.addEventListener('input',()=>checkVid(inp));if(inp.value.trim())checkVid(inp)});
+  $$('[data-showif]',root).forEach(w=>{const c=$(`[data-k="${w.dataset.showif.split('=')[0]}"]`,root);if(c)c.addEventListener('change',()=>applyShowif(root))});applyShowif(root)}
+async function handleUpload(fi){const file=fi.files&&fi.files[0];fi.value='';if(!file)return;const kind=fi.dataset.up,wrap=fi.closest('.fld,.rep'),tgt=$('[data-img],[data-vid],[data-s="url"]',wrap),st=$('.istat',wrap),pb=$('.pbar',wrap),pbi=pb&&$('i',pb),lab=fi.closest('label');
+  const okType={image:/^image\//,video:/^video\//,pdf:/^application\/pdf$/}[kind];if(!okType.test(file.type)){toast(kind==='video'?'ভিডিও ফাইল বাছুন':kind==='pdf'?'PDF ফাইল বাছুন':'ছবির ফাইল বাছুন',true);return}
+  lab.classList.add('busy');if(st){st.className='istat wait';st.textContent=kind==='video'?'ভিডিও আপলোড হচ্ছে… (এটি সময় নিতে পারে, পেজ বন্ধ করবেন না)':'Drive-এ আপলোড হচ্ছে…'}
+  if(pb&&kind==='video')pb.classList.add('on');
+  try{const r=await uploadFile(file,kind,FOLDERS[FS&&FS.k]||'misc',p=>{if(pbi)pbi.style.width=Math.round(p*100)+'%'});
+    noteChange(tgt.value,r.id);tgt.value=r.url;tgt.dispatchEvent(new Event('input',{bubbles:true}));if(kind==='pdf'&&st){st.className='istat ok';st.textContent='✓ PDF আপলোড হয়েছে'}toast('আপলোড সম্পন্ন ✓')}
+  catch(e){console.error(e);if(st){st.className='istat bad';st.textContent=e.message}toast(e.message,true)}
+  finally{lab.classList.remove('busy');if(pb){pb.classList.remove('on');if(pbi)pbi.style.width='0'}}}
+document.addEventListener('change',e=>{if(e.target.matches&&e.target.matches('input[data-up]'))handleUpload(e.target)});
+document.addEventListener('click',e=>{const l=e.target.closest('label.up');if(l&&!DRIVE_ON()){e.preventDefault();toast('Drive আপলোড সেটআপ হয়নি — "সেটআপ গাইড" দেখুন, অথবা Drive লিংক পেস্ট করুন।',true)}
+  const c=e.target.closest('[data-clr]');if(c){const w=c.closest('.fld,.rep'),tgt=$('[data-img],[data-vid],[data-s="url"]',w);if(tgt&&tgt.value){noteChange(tgt.value,null);tgt.value='';tgt.dispatchEvent(new Event('input',{bubbles:true}));const st=$('.istat',w);if(st){st.className='istat';st.textContent=''}toast('মোছা হয়েছে (সংরক্ষণ করলে Drive থেকেও ট্র্যাশে যাবে)')}}},true);
+function collect(root,fields){const data={},errs=[];$$('.fld',root).forEach(x=>x.classList.remove('err'));
+ const mark=(k,m)=>{const w=$(`[data-fk="${k}"]`,root);if(w){w.classList.add('err');const e=$('.em',w);if(m)e.textContent=m}errs.push(k)};
+ const raw={};fields.forEach(f=>{const el=$(`[data-k="${f.k}"]`,root);if(el)raw[f.k]=f.type==='checkbox'?el.checked:el.value.trim()});
+ fields.forEach(f=>{const el=$(`[data-k="${f.k}"]`,root);if(!el)return;let v=raw[f.k];
+  if(f.showif&&raw[f.showif[0]]!==f.showif[1]){setP(data,f.k,'');return}
+  const req=typeof f.req==='function'?f.req(raw):f.req;
+  if(f.type==='checkbox'){if(req&&!v)mark(f.k)}
+  else{if(req&&!v)mark(f.k,'এই তথ্যটি আবশ্যক');
+   else if(v&&f.type==='image'&&!imgUrl(v))mark(f.k,'সঠিক ছবির লিংক দিন');
+   else if(v&&f.type==='video'&&!(ytId(v)||driveId(v)))mark(f.k,'Drive বা YouTube ভিডিওর লিংক দিন');
+   else if(v&&f.type==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))mark(f.k,'সঠিক ইমেইল দিন');
+   else if(v&&f.type==='url'&&!isHttps(v))mark(f.k,'https:// দিয়ে শুরু হওয়া লিংক দিন');
+   if(f.type==='number')v=v===''?'':Number(v)}
+  setP(data,f.k,v)});return{data,errs}}
+const fail=e=>{console.error(e);toast(/permission|insufficient/i.test(e&&e.message||'')?'অনুমতি নেই — Firestore Rules ও admins ডকুমেন্ট পরীক্ষা করুন।':'ব্যর্থ হয়েছে। ইন্টারনেট দেখে আবার চেষ্টা করুন।',true)};
+
+/* open create/edit form */
+function openForm(k,id){const E=ENT[k],d=id?D[k].find(x=>x.id===id):null;if(id&&!d)return;
+ openModal(`<div class="grab"></div><div class="sh-h"><h2>${d?'সম্পাদনা':'নতুন'}: ${E.one}</h2><button class="ib" data-close aria-label="বন্ধ"><i class="fa-solid fa-xmark"></i></button></div>
+ <form id="ef" novalidate><div class="fgrid">${E.fields.map(f=>fld(f,d?(f.type==='date'?iso(d[f.k]):getP(d,f.k)):(f.type==='date'?iso(new Date()):f.def))).join('')}</div><div class="ferr"></div>
+ <div class="sh-f"><button type="button" class="btn btn-line" data-close>বাতিল</button><button class="btn btn-gold" type="submit"><i class="fa-solid fa-floppy-disk"></i>সংরক্ষণ করুন</button></div></form>`);
+ FS=newFS(k);modalCleanup=endFS;wireImgs(sheet);
+ $('#ef').onsubmit=async ev=>{ev.preventDefault();const form=ev.target,btn=$('button[type=submit]',form),{data,errs}=collect(form,E.fields);
+  if(errs.length){const w=$('.fld.err',form);w&&w.scrollIntoView({behavior:'smooth',block:'center'});toast('লাল চিহ্নিত ঘরগুলো ঠিক করুন',true);return}
+  const badImgs=$$('[data-img]',form).filter(i=>i.dataset.bad==='1'&&i.value.trim());
+  if(badImgs.length&&!confirm('কিছু ছবি লোড হচ্ছে না (Drive শেয়ারিং ঠিক নেই হতে পারে)। তবুও সংরক্ষণ করবেন?'))return;
+  btn.classList.add('busy');
+  try{if(d){await updateDoc(doc(db,COL[k],d.id),{...data,updatedAt:serverTimestamp()})}
+   else{const os=D[k].map(x=>x.order).filter(n=>typeof n==='number');data.order=E.order==='top'?(os.length?Math.min(...os):1)-1:(os.length?Math.max(...os):0)+1;await addDoc(collection(db,COL[k]),{...data,createdAt:serverTimestamp()})}
+   FS.saved=true;{const cur=JSON.stringify(data),gone=[...FS.trash].filter(id=>!cur.includes(id)&&!stillUsed(id,{k,id:d&&d.id}));trashIds(gone)}
+   toast(d?'আপডেট হয়েছে ✓':'যোগ হয়েছে ✓');closeModal()}catch(e){fail(e)}finally{btn.classList.remove('busy')}}}
+async function removeItem(k,id){const d=D[k].find(x=>x.id===id);if(!d)return;const it=ENT[k].item(d);const mids=ENT[k].fields.filter(f=>f.type==='image'||f.type==='video').map(f=>driveId(d[f.k])).filter(Boolean);
+  if(!await askConfirm('মুছে ফেলবেন?',`"${it.t}" স্থায়ীভাবে মুছে যাবে।`+(mids.length&&DRIVE_ON()?' এর ছবি/ভিডিও Google Drive থেকেও ট্র্যাশে যাবে (৩০ দিন পুনরুদ্ধার করা যাবে)।':'')))return;
+  try{await deleteDoc(doc(db,COL[k],id));toast('মুছে ফেলা হয়েছে');trashIds(mids.filter(m=>!stillUsed(m,{k,id})))}catch(e){fail(e)}}
+async function moveItem(k,id,dir){const list=[...D[k]],i=list.findIndex(x=>x.id===id),j=i+dir;if(i<0||j<0||j>=list.length)return;[list[i],list[j]]=[list[j],list[i]];
+  try{const b=writeBatch(db);list.forEach((x,n)=>{if(x.order!==n+1)b.update(doc(db,COL[k],x.id),{order:n+1})});await b.commit()}catch(e){fail(e)}}
+/* bulk gallery */
+function openBulk(){openModal(`<div class="grab"></div><div class="sh-h"><h2>একসাথে অনেক ছবি যোগ করুন</h2><button class="ib" data-close aria-label="বন্ধ"><i class="fa-solid fa-xmark"></i></button></div>
+ <label class="btn btn-gold btn-w up ${DRIVE_ON()?'':'dis'}" id="bk-pick" style="margin-bottom:10px"><i class="fa-solid fa-cloud-arrow-up"></i><span>ফোন/কম্পিউটার থেকে ছবি বাছুন (একাধিক)</span><input type="file" accept="image/*" multiple hidden id="bk-files"></label><div class="bkl" id="bk-l" hidden></div>
+ <p style="color:var(--muted);margin:14px 0 8px"><b>অথবা</b> Drive লিংক দিয়ে — প্রতি লাইনে একটি ছবি। ফরম্যাট: <b>Drive লিংক | বাংলা ক্যাপশন | English caption</b> (ক্যাপশন ঐচ্ছিক)।</p>
+ <div class="fld"><textarea id="bk" rows="9" style="font-size:14px" placeholder="https://drive.google.com/file/d/AAA/view | ত্রাণ বিতরণ | Relief distribution&#10;https://drive.google.com/file/d/BBB/view | বৃক্ষরোপণ"></textarea></div><div id="bk-i" class="msg warn" hidden></div>
+ <div class="sh-f"><button class="btn btn-line" data-close>বাতিল</button><button class="btn btn-gold" id="bk-go"><i class="fa-solid fa-cloud-arrow-up"></i>যোগ করুন</button></div>`);
+ $('#bk-files').onchange=async ev=>{const files=[...ev.target.files].filter(f=>/^image\//.test(f.type));ev.target.value='';if(!files.length)return;const box=$('#bk-l');box.hidden=false;box.innerHTML=files.map((f,i)=>`<div id="bi${i}"><i class="fa-regular fa-clock"></i><span>${esc(f.name)}</span></div>`).join('');
+  $('#bk-pick').classList.add('busy');const items=[];
+  for(let i=0;i<files.length;i++){const row=$('#bi'+i);row.innerHTML=`<i class="fa-solid fa-spinner fa-spin"></i><span>${bn(i+1)}/${bn(files.length)} — ${esc(files[i].name)}</span>`;
+   try{let r;try{r=await uploadFile(files[i],'image','gallery')}catch(e1){r=await uploadFile(files[i],'image','gallery')}items.push({img:r.url,title_bn:'',title_en:'',type:'image'});row.className='ok';row.innerHTML=`<i class="fa-solid fa-circle-check"></i><span>${esc(files[i].name)}</span>`}catch(e){row.className='bad';row.innerHTML=`<i class="fa-solid fa-circle-exclamation"></i><span>${esc(files[i].name)} — ${esc(e.message)}</span>`}}
+  try{if(items.length){const os=D.gallery.map(x=>x.order).filter(n=>typeof n==='number'),base=(os.length?Math.min(...os):1)-items.length;for(let i=0;i<items.length;i+=400){const b=writeBatch(db);items.slice(i,i+400).forEach((it,n)=>b.set(doc(collection(db,COL.gallery)),{...it,order:base+i+n,createdAt:serverTimestamp()}));await b.commit()}toast(bn(items.length)+'টি ছবি গ্যালারিতে যোগ হয়েছে ✓');if(items.length===files.length){await sleep(700);closeModal()}}}catch(e){fail(e)}finally{$('#bk-pick').classList.remove('busy')}};
+ $('#bk-go').onclick=async()=>{const lines=$('#bk').value.split('\n').map(l=>l.trim()).filter(Boolean),info=$('#bk-i'),items=[],bad=[];
+  lines.forEach((l,n)=>{const [u,a='',b='']=l.split('|').map(x=>x.trim());if(imgUrl(u))items.push({img:u,title_bn:a.slice(0,100),title_en:b.slice(0,100)});else bad.push(n+1)});
+  if(bad.length){info.hidden=false;info.textContent='এই লাইনগুলোর লিংক সঠিক নয়: '+bad.map(bn).join(', ');return}
+  if(!items.length){info.hidden=false;info.textContent='কোনো লিংক পাওয়া যায়নি।';return}
+  const btn=$('#bk-go');btn.classList.add('busy');
+  try{const os=D.gallery.map(x=>x.order).filter(n=>typeof n==='number'),base=(os.length?Math.min(...os):1)-items.length;
+   for(let i=0;i<items.length;i+=400){const b=writeBatch(db);items.slice(i,i+400).forEach((it,n)=>b.set(doc(collection(db,COL.gallery)),{...it,order:base+i+n,createdAt:serverTimestamp()}));await b.commit()}
+   toast(bn(items.length)+'টি ছবি যোগ হয়েছে ✓');closeModal()}catch(e){fail(e)}finally{btn.classList.remove('busy')}}}
+
+/* ---------- settings ---------- */
+const DEF_STATS=[{n:300,suffix:'+',label_bn:'নিরাপদ যাতায়াত পাওয়া পরিবার',label_en:'Families with safe passage'},{n:500,suffix:'+',label_bn:'শিশুকে সহায়তার লক্ষ্য',label_en:'Children targeted for support'},{n:100,suffix:'+',label_bn:'বন্যায় ত্রাণ পাওয়া পরিবার',label_en:'Flood-relief families'},{n:'@projects',suffix:'',label_bn:'মোট প্রকল্প',label_en:'Total projects'}];
+const SETG=[
+ {id:'g1',icon:'fa-address-card',t:'সংস্থার তথ্য ও যোগাযোগ',d:'পাবলিক সাইটের টপবার, যোগাযোগ পেজ ও ফুটারে দেখানো হবে।',f:[
+  {k:'phone',label:'ফোন নম্বর',type:'tel',ph:'+880 1XXX-XXXXXX'},{k:'email',label:'ইমেইল',type:'email'},
+  {k:'address_bn',label:'ঠিকানা (বাংলা)',max:200},{k:'address_en',label:'Address (English)',max:200},
+  {k:'hours_bn',label:'অফিস সময় (বাংলা)',max:80,ph:'অফিস সময়: সকাল ৯টা - বিকাল ৫টা'},{k:'hours_en',label:'Office hours (English)',max:80,ph:'Office hours: 9 AM – 5 PM'},
+  {k:'reg_no',label:'নিবন্ধন নম্বর',max:60},{k:'est_year',label:'প্রতিষ্ঠার সাল',max:10},
+  {k:'facebook',label:'ফেসবুক পেজ লিংক',type:'url',full:1,ph:'https://facebook.com/…'},{k:'youtube',label:'ইউটিউব চ্যানেল লিংক',type:'url',full:1},
+  {k:'whatsapp',label:'WhatsApp লিংক',type:'url',full:1,ph:'https://wa.me/8801XXXXXXXXX'},
+  {k:'mapEmbed',label:'Google Map এম্বেড লিংক',type:'url',full:1,help:'Google Maps → আপনার ঠিকানা → Share → Embed a map → কোডের ভেতরের <b>src="…"</b> এর লিংকটুকু (https://www.google.com/maps/embed?…) পেস্ট করুন।'}]},
+ {id:'g2',icon:'fa-image',t:'হোমপেজের মূল ছবি ও নোটিশ',d:'হোমপেজের বড় ছবি এবং সাইটের উপরে ঘোষণার বার।',f:[
+  {k:'hero_img',label:'হোমপেজের মূল ছবি',type:'image',full:1},{k:'hero_cap_bn',label:'ছবির ক্যাপশন (বাংলা)',max:120},{k:'hero_cap_en',label:'Caption (English)',max:120},
+  {k:'notice_active',label:'সাইটের উপরে নোটিশ বার দেখান',type:'checkbox',full:1},{k:'notice_bn',label:'নোটিশ (বাংলা)',max:200},{k:'notice_en',label:'Notice (English)',max:200},{k:'notice_link',label:'নোটিশের লিংক (ঐচ্ছিক)',type:'url',full:1}]},
+ {id:'g3',icon:'fa-chart-simple',t:'হোমপেজের পরিসংখ্যান',d:'সর্বোচ্চ ৬টি। "মোট প্রকল্প" বেছে নিলে সংখ্যা স্বয়ংক্রিয় হবে। সঠিক সংখ্যাই দিন।',rep:'stats'},
+ {id:'g4',icon:'fa-hand-holding-dollar',t:'সহায়তা গ্রহণের অফিসিয়াল মাধ্যম',d:'শুধু সংস্থার অফিসিয়াল/মার্চেন্ট নম্বর ও অ্যাকাউন্ট দিন — ব্যক্তিগত নয়। খালি রাখলে সাইটে "শীঘ্রই যুক্ত হবে" দেখাবে।',f:[
+  {k:'payments.bkash',label:'বিকাশ নম্বর',type:'tel'},{k:'payments.nagad',label:'নগদ নম্বর',type:'tel'},{k:'payments.rocket',label:'রকেট নম্বর',type:'tel'},{k:'payments.bank_name',label:'ব্যাংকের নাম',max:80},
+  {k:'payments.bank_branch',label:'শাখা',max:80},{k:'payments.bank_acc_name',label:'অ্যাকাউন্টের নাম',max:100},{k:'payments.bank_acc_no',label:'অ্যাকাউন্ট নম্বর',max:40}]},
+ {id:'g5',icon:'fa-file-pdf',t:'প্রতিবেদন (PDF)',d:'বার্ষিক প্রতিবেদন/আয়-ব্যয়ের PDF Google Drive-এ রেখে "Anyone with the link" করে লিংক দিন।',rep:'reports'}];
+const allSetFields=SETG.flatMap(g=>g.f||[]);
+const statRow=s=>`<div class="rep" data-row="stats"><div class="fld"><label>ধরন</label><select data-s="mode"><option value="num" ${s.n==='@projects'?'':'selected'}>নির্দিষ্ট সংখ্যা</option><option value="projects" ${s.n==='@projects'?'selected':''}>মোট প্রকল্প (স্বয়ংক্রিয়)</option></select></div><div class="fld"><label>সংখ্যা</label><input data-s="n" type="number" min="0" inputmode="numeric" value="${s.n==='@projects'?'':esc(s.n)}"></div><div class="fld"><label>শেষে চিহ্ন</label><input data-s="suffix" maxlength="3" value="${esc(s.suffix||'')}" placeholder="+"></div><div class="fld"><label>লেবেল (বাংলা)</label><input data-s="label_bn" maxlength="80" value="${esc(s.label_bn||'')}"></div><div class="fld"><label>Label (English)</label><input data-s="label_en" maxlength="80" value="${esc(s.label_en||'')}"></div><button type="button" class="btn btn-line btn-sm rm" data-rm><i class="fa-solid fa-trash-can"></i>সরান</button></div>`;
+const repRow=r=>`<div class="rep" data-row="reports"><div class="fld"><label>শিরোনাম (বাংলা)</label><input data-s="title_bn" maxlength="100" value="${esc(r.title_bn||'')}"></div><div class="fld"><label>Title (English)</label><input data-s="title_en" maxlength="100" value="${esc(r.title_en||'')}"></div><div class="fld" style="grid-column:1/-1"><label>PDF (আপলোড বা Drive লিংক)</label><input data-s="url" type="url" inputmode="url" value="${esc(r.url||'')}" placeholder="আপলোড করুন, অথবা Drive লিংক পেস্ট করুন">${mbtns('pdf')}<div class="istat" style="margin-top:6px"></div></div><button type="button" class="btn btn-line btn-sm rm" data-rm><i class="fa-solid fa-trash-can"></i>সরান</button></div>`;
+function viewSettings(){const S=D.site||{};if(!L.site)return `<div class="sec-h"><h2>সাইট সেটিংস</h2></div>${skel(2)}`;
+ const stats=(S.stats&&S.stats.length)?S.stats:DEF_STATS,reps=S.reports||[];
+ return `<div class="sec-h"><div><h2><i class="fa-solid fa-gear" style="color:var(--gold-h)"></i> সাইট সেটিংস</h2><small>এখানকার পরিবর্তন সাথে সাথে পাবলিক সাইটে দেখা যাবে</small></div></div>
+ <div class="chips" style="margin-bottom:14px">${SETG.map(g=>`<button class="chip" data-jump="${g.id}"><i class="fa-solid ${g.icon}"></i> ${g.t.split(' ').slice(0,2).join(' ')}</button>`).join('')}</div>
+ <form id="sf" novalidate>${SETG.map(g=>`<section class="card pad set-sec" id="${g.id}"><h3><i class="fa-solid ${g.icon}"></i>${g.t}</h3><p>${g.d}</p>${g.rep==='stats'?`<div id="rows-stats">${stats.map(statRow).join('')}</div><button type="button" class="btn btn-line btn-sm" data-add="stats"><i class="fa-solid fa-plus"></i>আরেকটি যোগ করুন</button>`:g.rep==='reports'?`<div id="rows-reports">${reps.map(repRow).join('')}</div><button type="button" class="btn btn-line btn-sm" data-add="reports"><i class="fa-solid fa-plus"></i>প্রতিবেদন যোগ করুন</button>`:`<div class="fgrid">${g.f.map(f=>fld(f,getP(S,f.k))).join('')}</div>`}</section>`).join('')}
+ <div class="savebar"><span id="sv-s">সব তথ্য সংরক্ষিত আছে</span><button class="btn btn-gold" type="submit"><i class="fa-solid fa-floppy-disk"></i>সংরক্ষণ করুন</button></div></form>`}
+function bindSettings(){const f=$('#sf');if(!f||f._b)return;f._b=1;wireImgs(f);
+ f.addEventListener('input',()=>{dirty=true;$('#sv-s').textContent='অসংরক্ষিত পরিবর্তন আছে'});
+ f.addEventListener('submit',async ev=>{ev.preventDefault();const {data,errs}=collect(f,allSetFields);
+  data.notice_active=!!data.notice_active;
+  const stats=$$('[data-row="stats"]',f).map(r=>{const g=k=>$(`[data-s="${k}"]`,r).value.trim(),mode=g('mode');return{n:mode==='projects'?'@projects':(Number(g('n'))||0),suffix:g('suffix'),label_bn:g('label_bn'),label_en:g('label_en')}}).filter(s=>s.label_bn||s.label_en).slice(0,6);
+  const reports=[];let rbad=false;$$('[data-row="reports"]',f).forEach(r=>{const g=k=>$(`[data-s="${k}"]`,r).value.trim(),o={title_bn:g('title_bn'),title_en:g('title_en'),url:g('url')};if(!o.url&&!o.title_bn&&!o.title_en)return;if(!isHttps(o.url)||!(o.title_bn||o.title_en)){rbad=true;return}reports.push(o)});
+  if(errs.length||rbad){toast(rbad?'প্রতিবেদনের শিরোনাম ও https লিংক দিন':'লাল চিহ্নিত ঘরগুলো ঠিক করুন',true);const w=$('.fld.err',f);w&&w.scrollIntoView({behavior:'smooth',block:'center'});return}
+  const btn=$('button[type=submit]',f);btn.classList.add('busy');
+  const before=JSON.parse(JSON.stringify(D.site||{}));
+  try{await setDoc(doc(db,'settings','site'),{...data,stats,reports,updatedAt:serverTimestamp()},{merge:true});dirty=false;
+   {const idsOf=o=>[o.hero_img,...(o.reports||[]).map(r=>r.url)].map(driveId).filter(Boolean),nw=new Set(idsOf({hero_img:data.hero_img,reports})),gone=idsOf(before).filter(i=>!nw.has(i)&&!stillUsed(i,{site:true}));trashIds(gone);if(FS)FS.saved=true;FS=newFS('site')}$('#sv-s').textContent='সংরক্ষিত ✓';toast('সেটিংস সংরক্ষিত হয়েছে ✓')}catch(e){fail(e)}finally{btn.classList.remove('busy')}})}
+
+/* ---------- help ---------- */
+const RULES=`rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+    match /projects/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /gallery/{id}      { allow read: if true; allow write: if isAdmin(); }
+    match /news/{id}         { allow read: if true; allow write: if isAdmin(); }
+    match /team/{id}         { allow read: if true; allow write: if isAdmin(); }
+    match /testimonials/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /settings/{id}     { allow read: if true; allow write: if isAdmin(); }
+
+    match /volunteers/{id} {
+      allow create: if request.resource.data.keys().hasOnly(
+          ['name','phone','email','address','interest','lang','status','createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 100
+        && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if isAdmin();
+    }
+    match /messages/{id} {
+      allow create: if request.resource.data.keys().hasOnly(
+          ['name','email','subject','message','lang','status','createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 100
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 2000
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}`;
+function viewHelp(){return `<div class="sec-h"><h2><i class="fa-solid fa-circle-question" style="color:var(--gold-h)"></i> সেটআপ গাইড</h2></div>
+ <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:6px"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--gold-h)"></i> সরাসরি আপলোড (ছবি, ভিডিও, PDF) — ${DRIVE_ON()?'<span class="pill p-done" style="margin:0">চালু আছে</span>':'<span class="pill p-new" style="margin:0">সেটআপ বাকি</span>'}</h3><p style="color:var(--muted);margin-bottom:10px">ফর্মের "আপলোড" বাটন থেকে ফাইল বাছলে সেটি আপনার Google Drive-এর <b>ManabProyas-Media</b> ফোল্ডারে জমা হয়, লিংক নিজে বসে যায়। "বদলান" বাটনে নতুন ফাইল দিলে পুরনোটি Drive-এর ট্র্যাশে যায়; "মুছুন" বা আইটেম ডিলিট করলেও তাই। ট্র্যাশ থেকে ৩০ দিন ফিরিয়ে আনা যায়। চালু করতে: <code>drive-upload.gs</code> স্ক্রিপ্ট ডিপ্লয় করে তার URL এই ফাইলের <code>DRIVE_SCRIPT_URL</code>-এ বসান।</p><div class="msg warn" style="margin:0"><i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span>ছবি আপলোডের আগে ব্রাউজারেই ছোট (সর্বোচ্চ ১৬০০px) করা হয়, তাই দ্রুত লোড হয়। ভিডিও আপলোড পরীক্ষামূলক — না হলে Drive-এ নিজে আপলোড করে লিংক বা YouTube (Unlisted) লিংক দিন।</span></div></div>
+ <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-brands fa-google-drive" style="color:var(--gold-h)"></i> নিজে Drive-এ আপলোড করে লিংক দেওয়ার নিয়ম</h3><ol class="steps"><li>ছবিটি Google Drive-এ আপলোড করুন (ফোন থেকে ২ MB-এর কম রাখলে সাইট দ্রুত খুলবে)।</li><li>ছবিতে ডান ক্লিক (ফোনে ⋮ মেনু) → <b>Share</b> → General access: <b>Anyone with the link</b> → Role: <b>Viewer</b> → <b>Copy link</b>।</li><li>এখানকার ফর্মে "Google Drive লিংক" ঘরে পেস্ট করুন। নিচে ছোট প্রিভিউ আর সবুজ "✓ ছবি ঠিক আছে" দেখলে বুঝবেন কাজ করছে।</li><li>অনেক ছবি হলে গ্যালারি পেজে "একসাথে অনেক ছবি" ব্যবহার করুন।</li><li>PDF প্রতিবেদনও একইভাবে শেয়ার করে লিংক দিন (সাইট সেটিংস → প্রতিবেদন)।</li></ol>
+ <div class="msg warn" style="margin:14px 0 0"><i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span>ফোল্ডারের লিংক কাজ করবে না — প্রতিটি ছবির আলাদা লিংক লাগবে। ছবি Drive থেকে মুছলে বা শেয়ারিং বন্ধ করলে সাইট থেকেও উধাও হবে। অনেক বেশি ভিজিটর হলে Google ছবি দেখানো সাময়িক সীমিত করতে পারে।</span></div></div>
+ <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-solid fa-user-shield" style="color:var(--gold-h)"></i> প্রথমবার অ্যাডমিন বানানোর নিয়ম (একবারই)</h3><ol class="steps"><li>Firebase Console → Authentication → Sign-in method → <b>Email/Password</b> চালু করুন।</li><li>Authentication → Users → <b>Add user</b> দিয়ে আপনার ইমেইল ও শক্ত পাসওয়ার্ড দিয়ে অ্যাকাউন্ট বানান।</li><li>এই পেজে সেই ইমেইলে লগইন করুন। "অ্যাডমিন অনুমতি নেই" পেজে আপনার <b>UID</b> দেখাবে।</li><li>Firestore Database → <b>Start collection</b> → Collection ID: <code>admins</code> → Document ID: সেই UID → একটি ফিল্ড দিন (<code>role</code> = <code>admin</code>) → Save।</li><li>নিচের Rules পেস্ট করে Publish করুন, তারপর "আবার পরীক্ষা করুন" চাপুন।</li><li>আরেকজন অ্যাডমিন চাইলে একইভাবে তার UID দিয়ে <code>admins</code>-এ ডকুমেন্ট যোগ করুন।</li></ol></div>
+ <div class="card pad" style="margin-bottom:16px"><div class="sec-h" style="margin-bottom:10px"><h3 style="color:var(--dark)"><i class="fa-solid fa-lock" style="color:var(--gold-h)"></i> Firestore Security Rules</h3><button class="btn btn-dark btn-sm" data-copy-rules><i class="fa-regular fa-copy"></i>কপি</button></div><p style="color:var(--muted);font-size:14px;margin-bottom:10px">সবাই সাইটের কনটেন্ট পড়তে পারবে; আবেদন/বার্তা শুধু জমা দিতে পারবে (পড়তে পারবে না); লেখা, মোছা ও ইনবক্স দেখা শুধু অ্যাডমিন।</p><pre class="code">${esc(RULES)}</pre></div>
+ <div class="card pad"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-solid fa-screwdriver-wrench" style="color:var(--gold-h)"></i> সমস্যা হলে</h3>
+ <details class="fq"><summary>"অনুমতি নেই" মেসেজ আসছে <i class="fa-solid fa-chevron-down"></i></summary><div>Rules পাবলিশ হয়েছে কি না এবং <code>admins/আপনার-UID</code> ডকুমেন্ট আছে কি না দেখুন।</div></details>
+ <details class="fq"><summary>ছবি দেখা যাচ্ছে না <i class="fa-solid fa-chevron-down"></i></summary><div>ফর্মের প্রিভিউ পরীক্ষা করুন। লাল মেসেজ এলে Drive-এ শেয়ারিং "Anyone with the link" করুন। ফোল্ডার নয়, ফাইলের লিংক দিতে হবে।</div></details>
+ <details class="fq"><summary>পাবলিক সাইটে পরিবর্তন দেখা যাচ্ছে না <i class="fa-solid fa-chevron-down"></i></summary><div>index.html-এর FIREBASE_CONFIG একই প্রজেক্টের কি না দেখুন। সাইটে ডেমো কনটেন্ট দেখালে index.html-এর <code>SHOW_DEMO_WHEN_EMPTY</code> মান <code>false</code> করুন।</div></details>
+ <details class="fq"><summary>পাসওয়ার্ড ভুলে গেছি <i class="fa-solid fa-chevron-down"></i></summary><div>লগইন পেজে "পাসওয়ার্ড ভুলে গেছেন?" চেপে ইমেইল দিন — রিসেট লিংক আসবে।</div></details></div>`}
+
+/* ---------- global click handling ---------- */
+document.addEventListener('click',async e=>{const t=e.target;
+ if(t.closest('[data-close]'))return closeModal();
+ let b;
+ if(b=t.closest('[data-new]'))return openForm(b.dataset.new);
+ if(b=t.closest('[data-edit]')){const [k,id]=b.dataset.edit.split(':');return openForm(k,id)}
+ if(b=t.closest('[data-del]')){const [k,id]=b.dataset.del.split(':');return removeItem(k,id)}
+ if(b=t.closest('[data-mv]')){const [k,id,d]=b.dataset.mv.split(':');return moveItem(k,id,+d)}
+ if(t.closest('[data-bulk]'))return openBulk();
+ if(b=t.closest('[data-open]')){const [k,id]=b.dataset.open.split(':');return openInbox(k,id)}
+ if(b=t.closest('[data-flt]')){const [k,v]=b.dataset.flt.split(':');F[k]=v;return renderView(true)}
+ if(t.closest('[data-csv]'))return exportCSV();
+ if(b=t.closest('[data-jump]')){const el=$('#'+b.dataset.jump);return el&&el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}
+ if(b=t.closest('[data-add]')){const k=b.dataset.add,box=$('#rows-'+k);if(k==='stats'&&$$('[data-row="stats"]',box).length>=6)return toast('সর্বোচ্চ ৬টি',true);box.insertAdjacentHTML('beforeend',k==='stats'?statRow({n:'',suffix:'+'}):repRow({}));dirty=true;$('#sv-s').textContent='অসংরক্ষিত পরিবর্তন আছে';return}
+ if(b=t.closest('[data-rm]')){b.closest('.rep').remove();dirty=true;$('#sv-s').textContent='অসংরক্ষিত পরিবর্তন আছে';return}
+ if(t.closest('[data-copy-rules]')){try{await navigator.clipboard.writeText(RULES);toast('Rules কপি হয়েছে')}catch(_){toast('কপি করা যায়নি — নিজে সিলেক্ট করুন',true)}return}
+ if(b=t.closest('[data-copy-text-from]')){const txt=$(b.dataset.copyTextFrom).textContent;try{await navigator.clipboard.writeText(txt);toast('কপি হয়েছে')}catch(_){toast(txt)}return}
+});
+new MutationObserver(()=>{if(route==='settings')bindSettings()}).observe($('#view'),{childList:true});
+
+/* ---------- auth & live data ---------- */
+const AUTHERR=c=>({'auth/invalid-credential':'ইমেইল বা পাসওয়ার্ড ভুল।','auth/wrong-password':'ইমেইল বা পাসওয়ার্ড ভুল।','auth/user-not-found':'ইমেইল বা পাসওয়ার্ড ভুল।','auth/invalid-email':'সঠিক ইমেইল দিন।','auth/too-many-requests':'অনেকবার ভুল চেষ্টা। কিছুক্ষণ পর আবার চেষ্টা করুন বা পাসওয়ার্ড রিসেট করুন।','auth/network-request-failed':'ইন্টারনেট সংযোগ পরীক্ষা করুন।','auth/user-disabled':'এই অ্যাকাউন্ট বন্ধ করা হয়েছে।'}[c]||'লগইন করা যায়নি। আবার চেষ্টা করুন।');
+function stopData(){unsubs.forEach(u=>{try{u()}catch(e){}});unsubs=[];Object.keys(L).forEach(k=>delete L[k])}
+function startData(){stopData();
+ Object.keys(COL).forEach(k=>unsubs.push(onSnapshot(collection(db,COL[k]),snap=>{D[k]=sortList(k,snap.docs.map(d=>({id:d.id,...d.data()})));L[k]=true;schedule()},err=>{console.error(k,err);L[k]=true;D[k]=[];schedule();fail(err)})));
+ unsubs.push(onSnapshot(doc(db,'settings','site'),s=>{D.site=s.exists()?s.data():{};L.site=true;schedule()},err=>{console.error(err);L.site=true;schedule()}))}
+async function enter(u){user=u;let ok=false;
+ try{const s=await getDoc(doc(db,'admins',u.uid));ok=s.exists()}catch(e){console.error(e)}
+ if(!ok){$('#d-mail').textContent=u.email||'';$('#d-uid').textContent=u.uid;return show('denied')}
+ $('#who').textContent=u.email||'';show('app');startData();go();armIdle()}
+let idleT;const IDLE=30*60*1000;
+function armIdle(){const r=()=>{clearTimeout(idleT);idleT=setTimeout(()=>{if(user){toast('নিষ্ক্রিয়তার কারণে লগআউট করা হয়েছে',true);signOut(auth)}},IDLE)};['click','keydown','touchstart','scroll'].forEach(ev=>addEventListener(ev,r,{passive:true}));r()}
+function logout(){clearTimeout(idleT);stopData();signOut(auth)}
+
+async function boot(){
+ if(!configured)return show('setup');
+ try{app=initializeApp(FIREBASE_CONFIG);auth=getAuth(app);db=getFirestore(app)}catch(e){console.error(e);return show('setup')}
+ onAuthStateChanged(auth,u=>{if(u)enter(u);else{user=null;stopData();show('login')}});
+ $('#l-eye').onclick=()=>{const p=$('#l-pass'),h=p.type==='password';p.type=h?'text':'password';$('i',$('#l-eye')).className=h?'fa-regular fa-eye-slash':'fa-regular fa-eye'};
+ $('#l-form').onsubmit=async e=>{e.preventDefault();const btn=$('button[type=submit]',e.target),er=$('#l-err'),ok=$('#l-ok');er.hidden=ok.hidden=true;
+  const m=$('#l-mail').value.trim(),p=$('#l-pass').value;if(!m||!p){er.hidden=false;er.textContent='ইমেইল ও পাসওয়ার্ড দিন।';return}
+  btn.classList.add('busy');try{await signInWithEmailAndPassword(auth,m,p)}catch(x){er.hidden=false;er.textContent=AUTHERR(x.code)}finally{btn.classList.remove('busy')}};
+ $('#l-forgot').onclick=async()=>{const er=$('#l-err'),ok=$('#l-ok');er.hidden=ok.hidden=true;const m=$('#l-mail').value.trim();if(!m){er.hidden=false;er.textContent='উপরে আপনার ইমেইল লিখে আবার চাপুন।';return}
+  try{await sendPasswordResetEmail(auth,m)}catch(x){if(x.code==='auth/invalid-email'){er.hidden=false;er.textContent='সঠিক ইমেইল দিন।';return}}
+  ok.hidden=false;ok.textContent='ঐ ইমেইলে অ্যাকাউন্ট থাকলে পাসওয়ার্ড রিসেটের লিংক পাঠানো হয়েছে।'};
+ $('#logout').onclick=logout;$('#d-out').onclick=logout;$('#d-retry').onclick=()=>user&&enter(user);
+}
+boot();
+</script>
+</body>
+</html>
