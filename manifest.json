@@ -1,0 +1,21 @@
+{
+  "name": "মানব প্রয়াস ফাউন্ডেশন",
+  "short_name": "MPF",
+  "description": "মানব প্রয়াস ফাউন্ডেশন",
+  "lang": "bn",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#0c4230",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
