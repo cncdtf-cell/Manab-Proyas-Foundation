@@ -1,0 +1,20 @@
+{
+  "name": "Manab Proyas Foundation (MPF) | মানব প্রয়াস ফাউন্ডেশন",
+  "short_name": "MPF",
+  "description": "মানব প্রয়াস ফাউন্ডেশন — দ্বীনি শিক্ষা, গ্রামীণ অবকাঠামো ও মানবসেবায় নিয়োজিত।",
+  "lang": "bn-BD",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FDFBF7",
+  "theme_color": "#0D2F28",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
